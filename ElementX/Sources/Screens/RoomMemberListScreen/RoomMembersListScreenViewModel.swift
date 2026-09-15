@@ -188,6 +188,7 @@ class RoomMembersListScreenViewModel: RoomMembersListScreenViewModelType, RoomMe
         }
         
         let manageMemberViewModel = ManageRoomMemberSheetViewModel(memberDetails: .memberDetails(roomMember: member),
+                                                                   verifiedIdentity: verifiedIdentityService.state(for: member.id, displayName: member.name),
                                                                    permissions: .init(canKick: state.canKickUsers,
                                                                                       canBan: state.canBanUsers,
                                                                                       ownPowerLevel: currentUserProxy?.powerLevel ?? .init(value: 0)),

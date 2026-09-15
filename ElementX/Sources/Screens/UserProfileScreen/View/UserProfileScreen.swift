@@ -44,7 +44,7 @@ struct UserProfileScreen: View {
             } footer: {
                 VStack(spacing: 24) {
                     VerifiedIdentityChip(state: context.viewState.verifiedIdentity)
-                    VerifiedIdentityCard(state: context.viewState.verifiedIdentity, displayName: userProfile.displayName)
+                    VerifiedIdentityCard(state: context.viewState.verifiedIdentity, displayName: userProfile.displayName, isOwnIdentity: context.viewState.isOwnUser)
                     otherUserFooter
                         .padding(.top, 8)
                 }

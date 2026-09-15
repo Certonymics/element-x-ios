@@ -42,6 +42,16 @@ struct VerifiedIdentityServiceTests {
     }
     
     @Test
+    func ownDisplayNameNeverMismatches() {
+        let service = VerifiedIdentityService.demo(ownUserID: "@me:matrix.org")
+        guard case .verified(_, _, let matchesDisplayName) = service.state(for: "@me:matrix.org", displayName: "kamil (work)") else {
+            Issue.record("Expected the signed-in user to be verified")
+            return
+        }
+        #expect(matchesDisplayName)
+    }
+    
+    @Test
     func demoVerifiesTheSignedInUser() {
         let service = VerifiedIdentityService.demo(ownUserID: "@me:matrix.org")
         #expect(service.state(for: "@me:matrix.org", displayName: nil).isVerified)

@@ -51,7 +51,7 @@ struct RoomMemberDetailsScreen: View {
             } footer: {
                 VStack(spacing: 24) {
                     VerifiedIdentityChip(state: context.viewState.verifiedIdentity)
-                    VerifiedIdentityCard(state: context.viewState.verifiedIdentity, displayName: memberDetails.name)
+                    VerifiedIdentityCard(state: context.viewState.verifiedIdentity, displayName: memberDetails.name, isOwnIdentity: context.viewState.isOwnMemberDetails)
                     
                     if context.viewState.showWithdrawVerificationSection {
                         withdrawVerificationSection

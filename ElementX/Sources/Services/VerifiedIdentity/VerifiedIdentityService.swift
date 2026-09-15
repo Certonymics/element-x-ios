@@ -41,6 +41,7 @@ nonisolated enum VerifiedIdentityState: Hashable, Sendable {
 /// account's email through the identity server, then the c.email DID and its KYC proof.
 nonisolated struct VerifiedIdentityService: Sendable {
     private let records: [String: VerifiedIdentityRecord]
+    private let ownUserID: String?
     
     /// Edit this map to add the accounts used in a demo.
     static let demoRecords: [String: VerifiedIdentityRecord] = [
@@ -52,8 +53,9 @@ nonisolated struct VerifiedIdentityService: Sendable {
     
     static let demoOwnRecord = VerifiedIdentityRecord(realName: "Kamil Kurowski", country: "Poland", verifiedOn: "15 Sep 2026", linkedEmail: "kamil@cemail.org")
     
-    init(records: [String: VerifiedIdentityRecord]) {
+    init(records: [String: VerifiedIdentityRecord], ownUserID: String? = nil) {
         self.records = records
+        self.ownUserID = ownUserID
     }
     
     /// The demo records, plus the signed-in user verified under `demoOwnRecord`.
@@ -62,13 +64,15 @@ nonisolated struct VerifiedIdentityService: Sendable {
         if let ownUserID {
             records[ownUserID] = demoOwnRecord
         }
-        return VerifiedIdentityService(records: records)
+        return VerifiedIdentityService(records: records, ownUserID: ownUserID)
     }
     
+    /// The signed-in user's own display name is never treated as an impersonation attempt.
     func state(for userID: String, displayName: String?) -> VerifiedIdentityState {
         guard let record = records[userID] else { return .unverified }
         guard let realName = record.realName else { return .known }
-        return .verified(realName: realName, record: record, matchesDisplayName: Self.namesMatch(displayName, realName))
+        let matches = userID == ownUserID || Self.namesMatch(displayName, realName)
+        return .verified(realName: realName, record: record, matchesDisplayName: matches)
     }
     
     /// A missing display name can't impersonate anyone, so it counts as a match.
