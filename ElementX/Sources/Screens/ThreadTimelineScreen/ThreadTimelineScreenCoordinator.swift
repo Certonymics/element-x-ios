@@ -26,6 +26,7 @@ struct ThreadTimelineScreenCoordinatorParameters {
     let composerDraftService: ComposerDraftServiceProtocol
     let timelineControllerFactory: TimelineControllerFactoryProtocol
     let userIndicatorController: UserIndicatorControllerProtocol
+    var verifiedIdentityService = VerifiedIdentityService.demo()
 }
 
 enum ThreadTimelineScreenCoordinatorAction {
@@ -71,7 +72,8 @@ final class ThreadTimelineScreenCoordinator: CoordinatorProtocol {
                                               analyticsService: parameters.analytics,
                                               emojiProvider: parameters.emojiProvider,
                                               linkMetadataProvider: parameters.linkMetadataProvider,
-                                              timelineControllerFactory: parameters.timelineControllerFactory)
+                                              timelineControllerFactory: parameters.timelineControllerFactory,
+                                              verifiedIdentityService: parameters.verifiedIdentityService)
         
         let wysiwygViewModel = WysiwygComposerViewModel(minHeight: ComposerConstant.minHeight,
                                                         maxCompressedHeight: ComposerConstant.maxHeight,

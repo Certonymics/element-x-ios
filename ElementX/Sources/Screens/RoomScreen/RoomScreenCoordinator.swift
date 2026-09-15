@@ -59,7 +59,6 @@ final class RoomScreenCoordinator: CoordinatorProtocol {
     private var timelineViewModel: TimelineViewModelProtocol
     private var composerViewModel: ComposerToolbarViewModelProtocol
     private let appSettings: AppSettings
-    private let verifiedIdentityService: VerifiedIdentityService
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -70,7 +69,6 @@ final class RoomScreenCoordinator: CoordinatorProtocol {
     
     init(parameters: RoomScreenCoordinatorParameters) {
         appSettings = parameters.appSettings
-        verifiedIdentityService = parameters.verifiedIdentityService
         
         var selectedPinnedEventID: String?
         if let focussedEvent = parameters.focussedEvent {
@@ -97,7 +95,8 @@ final class RoomScreenCoordinator: CoordinatorProtocol {
                                               analyticsService: parameters.analytics,
                                               emojiProvider: parameters.emojiProvider,
                                               linkMetadataProvider: parameters.linkMetadataProvider,
-                                              timelineControllerFactory: parameters.timelineControllerFactory)
+                                              timelineControllerFactory: parameters.timelineControllerFactory,
+                                              verifiedIdentityService: parameters.verifiedIdentityService)
         
         let wysiwygViewModel = WysiwygComposerViewModel(minHeight: ComposerConstant.minHeight,
                                                         maxCompressedHeight: ComposerConstant.maxHeight,
@@ -251,8 +250,7 @@ final class RoomScreenCoordinator: CoordinatorProtocol {
         
         return AnyView(RoomScreen(context: roomViewModel.context,
                                   timelineContext: timelineViewModel.context,
-                                  composerToolbar: composerToolbar)
-                .environment(\.verifiedIdentityService, verifiedIdentityService))
+                                  composerToolbar: composerToolbar))
     }
 }
 

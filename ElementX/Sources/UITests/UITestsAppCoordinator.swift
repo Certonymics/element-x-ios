@@ -663,7 +663,8 @@ class MockScreen: Identifiable {
                                                                                                   analytics: analytics,
                                                                                                   userIndicatorController: UserIndicatorControllerMock(),
                                                                                                   notificationManager: NotificationManagerMock(),
-                                                                                                  stateMachineFactory: StateMachineFactory()))
+                                                                                                  stateMachineFactory: StateMachineFactory(),
+                                                                                                  verifiedIdentityService: .demo()))
             
             flowCoordinator.start()
             
@@ -715,7 +716,8 @@ class MockScreen: Identifiable {
                                                                                                 analytics: analytics,
                                                                                                 userIndicatorController: UserIndicatorControllerMock(),
                                                                                                 notificationManager: NotificationManagerMock(),
-                                                                                                stateMachineFactory: StateMachineFactory()))
+                                                                                                stateMachineFactory: StateMachineFactory(),
+                                                                                                verifiedIdentityService: .demo()))
             flowCoordinator.actionsPublisher
                 .sink { [weak self] action in
                     guard let self else { return }
@@ -817,7 +819,8 @@ class MockScreen: Identifiable {
                                                                                                     analytics: analytics,
                                                                                                     userIndicatorController: UserIndicatorControllerMock(),
                                                                                                     notificationManager: NotificationManagerMock(),
-                                                                                                    stateMachineFactory: StateMachineFactory()))
+                                                                                                    stateMachineFactory: StateMachineFactory(),
+                                                                                                    verifiedIdentityService: .demo()))
             flowCoordinator.actionsPublisher
                 .sink { [weak self] action in
                     guard let self else { return }
@@ -872,7 +875,8 @@ class MockScreen: Identifiable {
                                                                                                analytics: analytics,
                                                                                                userIndicatorController: UserIndicatorControllerMock(),
                                                                                                notificationManager: NotificationManagerMock(),
-                                                                                               stateMachineFactory: StateMachineFactory()))
+                                                                                               stateMachineFactory: StateMachineFactory(),
+                                                                                               verifiedIdentityService: .demo()))
             
             flowCoordinator.start()
             

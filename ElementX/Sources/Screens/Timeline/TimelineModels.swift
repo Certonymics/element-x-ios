@@ -163,6 +163,8 @@ struct TimelineViewState: BindableState {
     
     var mapTilerConfiguration: MapTilerConfiguration
     
+    let verifiedIdentityService: VerifiedIdentityService
+    
     var stoppedLiveLocationIDs: Set<TimelineItemIdentifier> = []
     
     var bindings: TimelineViewStateBindings

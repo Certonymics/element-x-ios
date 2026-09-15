@@ -22,6 +22,7 @@ struct TimelineView: View {
             .environmentObject(timelineContext)
             .environment(\.timelineContext, timelineContext)
             .environment(\.focussedEventID, timelineContext.viewState.timelineState.focussedEvent?.eventID)
+            .environment(\.verifiedIdentityService, timelineContext.viewState.verifiedIdentityService)
             .alert(item: $timelineContext.alertInfo)
             .sheet(item: $timelineContext.manageMemberViewModel) {
                 ManageRoomMemberSheetView(context: $0.context)

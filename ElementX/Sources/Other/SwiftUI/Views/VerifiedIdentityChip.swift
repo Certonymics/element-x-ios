@@ -14,14 +14,30 @@ struct VerifiedIdentityChip: View {
     
     var body: some View {
         switch state {
-        case .verified(let realName, _, matchesDisplayName: true):
-            BadgeLabel(title: realName, icon: \.verified, style: .accent)
-        case .verified(let realName, _, matchesDisplayName: false):
-            BadgeLabel(title: UntranslatedL10n.commonVerifiedAs(realName), icon: \.warning, style: .critical)
+        case .verified(_, _, matchesDisplayName: true):
+            BadgeLabel(title: state.title, icon: \.verified, style: .accent)
+        case .verified(_, _, matchesDisplayName: false):
+            BadgeLabel(title: state.title, icon: \.warning, style: .critical)
         case .known:
-            BadgeLabel(title: UntranslatedL10n.commonRealNameUnknown, icon: \.verified, style: .default)
+            BadgeLabel(title: state.title, icon: \.verified, style: .default)
         case .unverified:
-            BadgeLabel(title: UntranslatedL10n.commonUnverified, icon: \.userProfile, style: .default)
+            BadgeLabel(title: state.title, icon: \.userProfile, style: .default)
+        }
+    }
+}
+
+nonisolated extension VerifiedIdentityState {
+    /// The chip's text, also read to VoiceOver where the chip itself is hidden.
+    var title: String {
+        switch self {
+        case .verified(let realName, _, matchesDisplayName: true):
+            realName
+        case .verified(let realName, _, matchesDisplayName: false):
+            UntranslatedL10n.commonVerifiedAs(realName)
+        case .known:
+            UntranslatedL10n.commonRealNameUnknown
+        case .unverified:
+            UntranslatedL10n.commonUnverified
         }
     }
 }

@@ -804,7 +804,8 @@ class RoomFlowCoordinator: FlowCoordinatorProtocol {
                                                                             analytics: flowParameters.analytics,
                                                                             composerDraftService: composerDraftService,
                                                                             timelineControllerFactory: flowParameters.timelineControllerFactory,
-                                                                            userIndicatorController: flowParameters.userIndicatorController))
+                                                                            userIndicatorController: flowParameters.userIndicatorController,
+                                                                            verifiedIdentityService: flowParameters.verifiedIdentityService))
         
         coordinator.actions.sink { [weak self] action in
             guard let self else { return }

@@ -74,7 +74,8 @@ class PinnedEventsTimelineFlowCoordinator: FlowCoordinatorProtocol {
                                                                                   emojiProvider: flowParameters.emojiProvider,
                                                                                   linkMetadataProvider: flowParameters.linkMetadataProvider,
                                                                                   timelineControllerFactory: flowParameters.timelineControllerFactory,
-                                                                                  userIndicatorController: flowParameters.userIndicatorController))
+                                                                                  userIndicatorController: flowParameters.userIndicatorController,
+                                                                                  verifiedIdentityService: flowParameters.verifiedIdentityService))
         
         coordinator.actions
             .sink { [weak self] action in
