@@ -784,7 +784,8 @@ class AppCoordinator: AppCoordinatorProtocol, AuthenticationFlowCoordinatorDeleg
                                                   analytics: analyticsService,
                                                   userIndicatorController: userIndicatorController,
                                                   notificationManager: notificationManager,
-                                                  stateMachineFactory: StateMachineFactory())
+                                                  stateMachineFactory: StateMachineFactory(),
+                                                  verifiedIdentityService: .demo(ownUserID: userSession.clientProxy.userID))
         
         let userSessionFlowCoordinator = UserSessionFlowCoordinator(isNewLogin: isNewLogin,
                                                                     navigationRootCoordinator: navigationRootCoordinator,

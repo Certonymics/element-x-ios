@@ -37,6 +37,7 @@ struct CommonFlowParameters {
     let userIndicatorController: UserIndicatorControllerProtocol
     let notificationManager: NotificationManagerProtocol
     let stateMachineFactory: StateMachineFactoryProtocol
+    var verifiedIdentityService = VerifiedIdentityService.demo()
     
     var windowManager: WindowManagerProtocol {
         appMediator.windowManager

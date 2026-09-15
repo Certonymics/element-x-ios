@@ -13,6 +13,7 @@ struct TimelineItemBubbledStylerView<Content: View>: View {
     @EnvironmentObject private var context: TimelineViewModel.Context
     @Environment(\.timelineGroupStyle) private var timelineGroupStyle
     @Environment(\.focussedEventID) private var focussedEventID
+    @Environment(\.verifiedIdentityService) private var verifiedIdentityService
     
     let timelineItem: EventBasedTimelineItemProtocol
     let adjustedDeliveryStatus: TimelineItemDeliveryStatus?
@@ -155,6 +156,9 @@ struct TimelineItemBubbledStylerView<Content: View>: View {
                             .font(.compound.bodyXS)
                             .foregroundStyle(.compound.textSecondary)
                     }
+                    
+                    VerifiedIdentityChip(state: verifiedIdentityService.state(for: timelineItem.sender.id,
+                                                                              displayName: timelineItem.sender.displayName))
                 }
                 .lineLimit(1)
                 .scaledPadding(.top, 3)

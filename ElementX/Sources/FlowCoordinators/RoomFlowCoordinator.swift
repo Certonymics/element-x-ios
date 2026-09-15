@@ -686,7 +686,8 @@ class RoomFlowCoordinator: FlowCoordinatorProtocol {
                                                          analytics: flowParameters.analytics,
                                                          composerDraftService: composerDraftService,
                                                          timelineControllerFactory: flowParameters.timelineControllerFactory,
-                                                         userIndicatorController: flowParameters.userIndicatorController)
+                                                         userIndicatorController: flowParameters.userIndicatorController,
+                                                         verifiedIdentityService: flowParameters.verifiedIdentityService)
         
         let coordinator = RoomScreenCoordinator(parameters: parameters)
         coordinator.actions
