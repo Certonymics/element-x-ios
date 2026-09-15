@@ -18,12 +18,12 @@ struct VerifiedIdentityCard: View {
             VStack(alignment: .leading, spacing: 12) {
                 Label(UntranslatedL10n.commonVerifiedIdentity, icon: \.verified, iconSize: .small, relativeTo: .compound.bodyMDSemibold)
                     .font(.compound.bodyMDSemibold)
-                    .foregroundStyle(.compound.textPrimary)
+                    .labelStyle(IconTextLabelStyle(iconColor: .compound.iconPrimary, titleColor: .compound.textPrimary))
                 
                 if !matchesDisplayName, let displayName {
                     Label(UntranslatedL10n.commonShownAsVerifiedAs(displayName, realName), icon: \.warning, iconSize: .xSmall, relativeTo: .compound.bodySM)
                         .font(.compound.bodySMSemibold)
-                        .foregroundStyle(.compound.textCriticalPrimary)
+                        .labelStyle(IconTextLabelStyle(iconColor: .compound.iconCriticalPrimary, titleColor: .compound.textCriticalPrimary))
                 }
                 
                 row(UntranslatedL10n.commonRealName, value: realName)
@@ -53,12 +53,26 @@ struct VerifiedIdentityCard: View {
         HStack(alignment: .top, spacing: 12) {
             Text(title)
                 .foregroundStyle(.compound.textSecondary)
+                .layoutPriority(1)
             Spacer()
             Text(value)
                 .foregroundStyle(.compound.textPrimary)
                 .multilineTextAlignment(.trailing)
         }
         .font(.compound.bodyMD)
+        .accessibilityElement(children: .combine)
+    }
+    
+    private struct IconTextLabelStyle: SwiftUI.LabelStyle {
+        let iconColor: Color
+        let titleColor: Color
+        
+        func makeBody(configuration: Configuration) -> some View {
+            HStack(spacing: 8) {
+                configuration.icon.foregroundStyle(iconColor)
+                configuration.title.foregroundStyle(titleColor)
+            }
+        }
     }
 }
 
