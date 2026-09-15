@@ -210,7 +210,8 @@ final class RoomMembersFlowCoordinator: FlowCoordinatorProtocol {
         let coordinator = RoomMembersListScreenCoordinator(parameters: .init(userSession: flowParameters.userSession,
                                                                              roomProxy: roomProxy,
                                                                              userIndicatorController: flowParameters.userIndicatorController,
-                                                                             analytics: flowParameters.analytics))
+                                                                             analytics: flowParameters.analytics,
+                                                                             verifiedIdentityService: flowParameters.verifiedIdentityService))
         coordinator.actions.sink { [weak self] action in
             guard let self else { return }
             switch action {

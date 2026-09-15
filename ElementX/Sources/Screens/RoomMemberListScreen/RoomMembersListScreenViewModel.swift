@@ -16,6 +16,7 @@ class RoomMembersListScreenViewModel: RoomMembersListScreenViewModelType, RoomMe
     private let roomProxy: JoinedRoomProxyProtocol
     private let userIndicatorController: UserIndicatorControllerProtocol
     private let analytics: AnalyticsServiceProtocol
+    private let verifiedIdentityService: VerifiedIdentityService
     
     private var members: [RoomMemberProxyProtocol] = []
     private var currentUserProxy: RoomMemberProxyProtocol?
@@ -30,11 +31,13 @@ class RoomMembersListScreenViewModel: RoomMembersListScreenViewModelType, RoomMe
          userSession: UserSessionProtocol,
          roomProxy: JoinedRoomProxyProtocol,
          userIndicatorController: UserIndicatorControllerProtocol,
-         analytics: AnalyticsServiceProtocol) {
+         analytics: AnalyticsServiceProtocol,
+         verifiedIdentityService: VerifiedIdentityService = .demo()) {
         self.userSession = userSession
         self.roomProxy = roomProxy
         self.userIndicatorController = userIndicatorController
         self.analytics = analytics
+        self.verifiedIdentityService = verifiedIdentityService
         
         super.init(initialViewState: .init(joinedMembersCount: roomProxy.infoPublisher.value.joinedMembersCount,
                                            bindings: .init(mode: initialMode)),
@@ -126,6 +129,7 @@ class RoomMembersListScreenViewModel: RoomMembersListScreenViewModelType, RoomMe
         // We don't care about identity statuses on non-encrypted rooms
         let isEncrypted = roomProxy.infoPublisher.value.isEncrypted
         let activeRoomCallParticipants = Set(roomProxy.infoPublisher.value.activeRoomCallParticipants)
+        let verifiedIdentityService = verifiedIdentityService
         
         return await Task.detached { [weak self] in
             // accessing RoomMember's properties is very slow. We need to do it in a background thread.
@@ -142,11 +146,20 @@ class RoomMembersListScreenViewModel: RoomMembersListScreenViewModelType, RoomMe
                 
                 switch member.membership {
                 case .invite:
-                    invitedMembers.append(.init(member: .init(withProxy: member), verificationState: verificationState, isActiveRoomCallParticipant: isActiveRoomCallParticipant))
+                    invitedMembers.append(.init(member: .init(withProxy: member),
+                                                verificationState: verificationState,
+                                                verifiedIdentity: verifiedIdentityService.state(for: member.userID, displayName: member.displayName),
+                                                isActiveRoomCallParticipant: isActiveRoomCallParticipant))
                 case .join:
-                    joinedMembers.append(.init(member: .init(withProxy: member), verificationState: verificationState, isActiveRoomCallParticipant: isActiveRoomCallParticipant))
+                    joinedMembers.append(.init(member: .init(withProxy: member),
+                                               verificationState: verificationState,
+                                               verifiedIdentity: verifiedIdentityService.state(for: member.userID, displayName: member.displayName),
+                                               isActiveRoomCallParticipant: isActiveRoomCallParticipant))
                 case .ban:
-                    bannedMembers.append(.init(member: .init(withProxy: member), verificationState: verificationState, isActiveRoomCallParticipant: isActiveRoomCallParticipant))
+                    bannedMembers.append(.init(member: .init(withProxy: member),
+                                               verificationState: verificationState,
+                                               verifiedIdentity: verifiedIdentityService.state(for: member.userID, displayName: member.displayName),
+                                               isActiveRoomCallParticipant: isActiveRoomCallParticipant))
                 default:
                     continue
                 }

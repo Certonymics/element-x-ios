@@ -322,6 +322,7 @@ struct RoomMembersListScreenViewModelTests {
         viewModel = RoomMembersListScreenViewModel(userSession: UserSessionMock(.init()),
                                                    roomProxy: roomProxy,
                                                    userIndicatorController: UserIndicatorControllerMock(),
-                                                   analytics: AnalyticsServiceMock(.init()))
+                                                   analytics: AnalyticsServiceMock(.init()),
+                                                   verifiedIdentityService: .init(records: [:]))
     }
 }
