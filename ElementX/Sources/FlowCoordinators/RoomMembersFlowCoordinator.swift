@@ -233,7 +233,8 @@ final class RoomMembersFlowCoordinator: FlowCoordinatorProtocol {
                                                                   userSession: flowParameters.userSession,
                                                                   appHooks: flowParameters.appHooks,
                                                                   analytics: flowParameters.analytics,
-                                                                  userIndicatorController: flowParameters.userIndicatorController)
+                                                                  userIndicatorController: flowParameters.userIndicatorController,
+                                                                  verifiedIdentityService: flowParameters.verifiedIdentityService)
         let coordinator = RoomMemberDetailsScreenCoordinator(parameters: params)
         
         coordinator.actions.sink { [weak self] action in
@@ -290,7 +291,8 @@ final class RoomMembersFlowCoordinator: FlowCoordinatorProtocol {
                                                                 userSession: flowParameters.userSession,
                                                                 appHooks: flowParameters.appHooks,
                                                                 analytics: flowParameters.analytics,
-                                                                userIndicatorController: flowParameters.userIndicatorController)
+                                                                userIndicatorController: flowParameters.userIndicatorController,
+                                                                verifiedIdentityService: flowParameters.verifiedIdentityService)
         let coordinator = UserProfileScreenCoordinator(parameters: parameters)
         coordinator.actionsPublisher.sink { [weak self] action in
             guard let self else { return }

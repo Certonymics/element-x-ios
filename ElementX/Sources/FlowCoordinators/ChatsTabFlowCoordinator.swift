@@ -753,7 +753,8 @@ class ChatsTabFlowCoordinator: FlowCoordinatorProtocol {
                                                                 userSession: userSession,
                                                                 appHooks: flowParameters.appHooks,
                                                                 analytics: flowParameters.analytics,
-                                                                userIndicatorController: flowParameters.userIndicatorController)
+                                                                userIndicatorController: flowParameters.userIndicatorController,
+                                                                verifiedIdentityService: flowParameters.verifiedIdentityService)
         let coordinator = UserProfileScreenCoordinator(parameters: parameters)
         coordinator.actionsPublisher.sink { [weak self] action in
             guard let self else { return }
