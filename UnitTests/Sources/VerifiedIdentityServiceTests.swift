@@ -1,6 +1,5 @@
 //
-// Copyright 2025 Element Creations Ltd.
-// Copyright 2022-2025 New Vector Ltd.
+// Copyright 2026 Element Creations Ltd.
 //
 // SPDX-License-Identifier: AGPL-3.0-only OR LicenseRef-Element-Commercial.
 // Please see LICENSE files in the repository root for full details.
@@ -47,5 +46,12 @@ struct VerifiedIdentityServiceTests {
         let service = VerifiedIdentityService.demo(ownUserID: "@me:matrix.org")
         #expect(service.state(for: "@me:matrix.org", displayName: nil).isVerified)
         #expect(VerifiedIdentityService.demo().state(for: "@me:matrix.org", displayName: nil) == .unverified)
+    }
+    
+    @Test
+    func diacriticsDoNotBreakTheMatch() {
+        let record = VerifiedIdentityRecord(realName: "Zofia Wiśniewska", country: "Poland", verifiedOn: "1 Sep 2026", linkedEmail: "zofia@cemail.org")
+        let service = VerifiedIdentityService(records: ["@zofia:cemail.org": record])
+        #expect(service.state(for: "@zofia:cemail.org", displayName: "Zofia Wisniewska") == .verified(realName: "Zofia Wiśniewska", record: record, matchesDisplayName: true))
     }
 }
