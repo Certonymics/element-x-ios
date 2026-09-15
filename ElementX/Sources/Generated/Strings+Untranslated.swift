@@ -10,8 +10,48 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 internal nonisolated enum UntranslatedL10n {
+  /// Verify with ID
+  internal static var actionVerifyWithId: String { return UntranslatedL10n.tr("Untranslated", "action_verify_with_id") }
+  /// Country
+  internal static var commonCountry: String { return UntranslatedL10n.tr("Untranslated", "common_country") }
+  /// Government-issued ID
+  internal static var commonGovernmentIssuedId: String { return UntranslatedL10n.tr("Untranslated", "common_government_issued_id") }
+  /// Identity
+  internal static var commonIdentity: String { return UntranslatedL10n.tr("Untranslated", "common_identity") }
+  /// Linked email
+  internal static var commonLinkedEmail: String { return UntranslatedL10n.tr("Untranslated", "common_linked_email") }
+  /// Real name
+  internal static var commonRealName: String { return UntranslatedL10n.tr("Untranslated", "common_real_name") }
+  /// Real name unknown
+  internal static var commonRealNameUnknown: String { return UntranslatedL10n.tr("Untranslated", "common_real_name_unknown") }
+  /// Shown as %1$@ · verified as %2$@
+  internal static func commonShownAsVerifiedAs(_ p1: Any, _ p2: Any) -> String {
+    return UntranslatedL10n.tr("Untranslated", "common_shown_as_verified_as", String(describing: p1), String(describing: p2))
+  }
+  /// Unverified
+  internal static var commonUnverified: String { return UntranslatedL10n.tr("Untranslated", "common_unverified") }
+  /// Verified as %1$@
+  internal static func commonVerifiedAs(_ p1: Any) -> String {
+    return UntranslatedL10n.tr("Untranslated", "common_verified_as", String(describing: p1))
+  }
+  /// Verified identity
+  internal static var commonVerifiedIdentity: String { return UntranslatedL10n.tr("Untranslated", "common_verified_identity") }
+  /// Verified on
+  internal static var commonVerifiedOn: String { return UntranslatedL10n.tr("Untranslated", "common_verified_on") }
+  /// Verified with
+  internal static var commonVerifiedWith: String { return UntranslatedL10n.tr("Untranslated", "common_verified_with") }
   /// Search
   internal static var screenHomeTabSearch: String { return UntranslatedL10n.tr("Untranslated", "screen_home_tab_search") }
+  /// Link your legal name to %1$@ so people know it is really you.
+  internal static func screenIdentitySettingsDescription(_ p1: Any) -> String {
+    return UntranslatedL10n.tr("Untranslated", "screen_identity_settings_description", String(describing: p1))
+  }
+  /// Verify once with a government-issued ID. Your real name is shown next to your messages and in your profile. The document itself is never shared.
+  internal static var screenIdentitySettingsNotVerifiedDescription: String { return UntranslatedL10n.tr("Untranslated", "screen_identity_settings_not_verified_description") }
+  /// %1$d of %2$d verified
+  internal static func screenRoomMemberListVerifiedCount(_ p1: Int, _ p2: Int) -> String {
+    return UntranslatedL10n.tr("Untranslated", "screen_room_member_list_verified_count", p1, p2)
+  }
   /// Search for chats and messages
   internal static var screenSearchEmptyStateMessage: String { return UntranslatedL10n.tr("Untranslated", "screen_search_empty_state_message") }
   /// Start searching...
@@ -24,6 +64,8 @@ internal nonisolated enum UntranslatedL10n {
   internal static var screenSearchTabChats: String { return UntranslatedL10n.tr("Untranslated", "screen_search_tab_chats") }
   /// Messages
   internal static var screenSearchTabMessages: String { return UntranslatedL10n.tr("Untranslated", "screen_search_tab_messages") }
+  /// This contact verified their identity with a government-issued ID, securely linking their legal name to this account.
+  internal static var screenUserProfileVerifiedIdentityFooter: String { return UntranslatedL10n.tr("Untranslated", "screen_user_profile_verified_identity_footer") }
   /// Clear all data currently stored on this device?
   /// Sign in again to access your account data and messages.
   internal static var softLogoutClearDataDialogContent: String { return UntranslatedL10n.tr("Untranslated", "soft_logout_clear_data_dialog_content") }
