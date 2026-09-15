@@ -13,6 +13,7 @@ struct BadgeLabel: View {
     enum Style {
         case accent
         case info
+        case critical
         case `default`
     }
     
@@ -35,6 +36,7 @@ struct BadgeLabel: View {
             switch style {
             case .accent: .compound.textBadgeAccent
             case .info: .compound.textBadgeInfo
+            case .critical: .compound.textCriticalPrimary
             case .default: .compound.textPrimary
             }
         }
@@ -43,6 +45,7 @@ struct BadgeLabel: View {
             switch style {
             case .accent: .compound.iconAccentPrimary
             case .info: .compound.iconInfoPrimary
+            case .critical: .compound.iconCriticalPrimary
             case .default: .compound.iconPrimary
             }
         }
@@ -51,6 +54,7 @@ struct BadgeLabel: View {
             switch style {
             case .accent: .compound.bgBadgeAccent
             case .info: .compound.bgBadgeInfo
+            case .critical: .compound.bgCriticalSubtle
             case .default: .compound.bgBadgeDefault
             }
         }
@@ -91,6 +95,9 @@ struct BadgeLabel_Previews: PreviewProvider, TestablePreview {
             BadgeLabel(title: "Not encrypted",
                        icon: \.lockSolid,
                        style: .info)
+            BadgeLabel(title: "Verified as Bartek Nowak",
+                       icon: \.warning,
+                       style: .critical)
             BadgeLabel(title: "1234",
                        icon: \.userProfile,
                        style: .default)
