@@ -196,9 +196,24 @@ struct RoomMemberDetailsViewModelTests {
         #expect(clientProxy.userIdentityForFallBackToServerCalled)
     }
     
+    // MARK: - Verified Identity
+    
+    @Test
+    mutating func displayNameDifferentFromVerifiedNameIsFlagged() async throws {
+        let record = VerifiedIdentityRecord(realName: "Bartek Nowak", country: "Poland", verifiedOn: "3 Sep 2026", linkedEmail: "b.nowak@cemail.org")
+        setup(roomMemberProxyMock: .mockBob, verifiedIdentityService: VerifiedIdentityService(records: ["@bob:matrix.org": record]))
+        
+        let waitForIdentity = deferFulfillment(context.$viewState) { $0.verifiedIdentity != .unverified }
+        try await waitForIdentity.fulfill()
+        
+        #expect(context.viewState.verifiedIdentity == .verified(realName: "Bartek Nowak", record: record, matchesDisplayName: false))
+    }
+    
     // MARK: - Helpers
     
-    private mutating func setup(roomMemberProxyMock: RoomMemberProxyMock, clientProxy: ClientProxyMock? = nil) {
+    private mutating func setup(roomMemberProxyMock: RoomMemberProxyMock,
+                                clientProxy: ClientProxyMock? = nil,
+                                verifiedIdentityService: VerifiedIdentityService = .demo()) {
         self.roomMemberProxyMock = roomMemberProxyMock
         roomProxyMock = JoinedRoomProxyMock(.init(name: ""))
         roomProxyMock.getMemberUserIDClosure = { _ in
@@ -212,6 +227,7 @@ struct RoomMemberDetailsViewModelTests {
                                                      userSession: userSession,
                                                      appHooks: AppHooks(),
                                                      analytics: AnalyticsServiceMock(.init()),
-                                                     userIndicatorController: UserIndicatorControllerMock())
+                                                     userIndicatorController: UserIndicatorControllerMock(),
+                                                     verifiedIdentityService: verifiedIdentityService)
     }
 }

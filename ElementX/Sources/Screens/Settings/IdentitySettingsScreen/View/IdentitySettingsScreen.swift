@@ -26,7 +26,7 @@ struct IdentitySettingsScreen: View {
             if context.viewState.verifiedIdentity.isVerified {
                 Section {
                     ListRow(kind: .custom {
-                        VerifiedIdentityCard(state: context.viewState.verifiedIdentity, displayName: nil)
+                        VerifiedIdentityCard(state: context.viewState.verifiedIdentity, displayName: nil, isOwnIdentity: true)
                             .padding(.vertical, 8)
                     })
                 }

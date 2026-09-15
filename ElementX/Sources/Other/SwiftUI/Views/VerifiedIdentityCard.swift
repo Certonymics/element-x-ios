@@ -12,6 +12,7 @@ import SwiftUI
 struct VerifiedIdentityCard: View {
     let state: VerifiedIdentityState
     let displayName: String?
+    var isOwnIdentity = false
     
     var body: some View {
         if case .verified(let realName, let record, let matchesDisplayName) = state {
@@ -38,7 +39,7 @@ struct VerifiedIdentityCard: View {
                     row(UntranslatedL10n.commonLinkedEmail, value: linkedEmail)
                 }
                 
-                Text(UntranslatedL10n.screenUserProfileVerifiedIdentityFooter)
+                Text(isOwnIdentity ? UntranslatedL10n.screenIdentitySettingsVerifiedFooter : UntranslatedL10n.screenUserProfileVerifiedIdentityFooter)
                     .font(.compound.bodySM)
                     .foregroundStyle(.compound.textSecondary)
             }

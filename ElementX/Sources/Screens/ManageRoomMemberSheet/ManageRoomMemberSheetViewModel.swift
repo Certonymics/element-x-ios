@@ -25,6 +25,7 @@ class ManageRoomMemberSheetViewModel: ManageRoomMemberSheetViewModelType, Manage
     }
     
     init(memberDetails: ManageRoomMemberDetails,
+         verifiedIdentity: VerifiedIdentityState = .unverified,
          permissions: ManageRoomMemberPermissions,
          roomProxy: JoinedRoomProxyProtocol,
          userIndicatorController: UserIndicatorControllerProtocol,
@@ -34,7 +35,7 @@ class ManageRoomMemberSheetViewModel: ManageRoomMemberSheetViewModelType, Manage
         self.roomProxy = roomProxy
         self.analyticsService = analyticsService
         self.mediaProvider = mediaProvider
-        super.init(initialViewState: .init(memberDetails: memberDetails, permissions: permissions), mediaProvider: mediaProvider)
+        super.init(initialViewState: .init(memberDetails: memberDetails, permissions: permissions, verifiedIdentity: verifiedIdentity), mediaProvider: mediaProvider)
     }
     
     override func process(viewAction: ManageRoomMemberSheetViewAction) {

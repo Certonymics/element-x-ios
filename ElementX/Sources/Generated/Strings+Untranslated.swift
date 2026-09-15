@@ -48,6 +48,8 @@ internal nonisolated enum UntranslatedL10n {
   }
   /// Verify once with a government-issued ID. Your real name is shown next to your messages and in your profile. The document itself is never shared.
   internal static var screenIdentitySettingsNotVerifiedDescription: String { return UntranslatedL10n.tr("Untranslated", "screen_identity_settings_not_verified_description") }
+  /// You verified your identity with a government-issued ID. Your legal name is linked to this account.
+  internal static var screenIdentitySettingsVerifiedFooter: String { return UntranslatedL10n.tr("Untranslated", "screen_identity_settings_verified_footer") }
   /// %1$d of %2$d verified
   internal static func screenRoomMemberListVerifiedCount(_ p1: Int, _ p2: Int) -> String {
     return UntranslatedL10n.tr("Untranslated", "screen_room_member_list_verified_count", p1, p2)

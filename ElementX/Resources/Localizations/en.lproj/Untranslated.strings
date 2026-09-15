@@ -14,6 +14,7 @@
 "screen_home_tab_search" = "Search";
 "screen_identity_settings_description" = "Link your legal name to %1$@ so people know it is really you.";
 "screen_identity_settings_not_verified_description" = "Verify once with a government-issued ID. Your real name is shown next to your messages and in your profile. The document itself is never shared.";
+"screen_identity_settings_verified_footer" = "You verified your identity with a government-issued ID. Your legal name is linked to this account.";
 "screen_room_member_list_verified_count" = "%1$d of %2$d verified";
 "screen_search_empty_state_message" = "Search for chats and messages";
 "screen_search_empty_state_title" = "Start searching...";

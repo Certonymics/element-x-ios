@@ -15,6 +15,7 @@ enum ManageRoomMemberSheetViewModelAction: Equatable {
 struct ManageRoomMemberSheetViewState: BindableState {
     let memberDetails: ManageRoomMemberDetails
     let permissions: ManageRoomMemberPermissions
+    var verifiedIdentity: VerifiedIdentityState = .unverified
     
     var isBanUnbanDisabled: Bool {
         // This is a best effort check, if we haven't fetched the member yet we assume we can peform the action
