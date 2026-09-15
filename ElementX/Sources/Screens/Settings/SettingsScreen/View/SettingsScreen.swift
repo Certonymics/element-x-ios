@@ -120,6 +120,13 @@ struct SettingsScreen: View {
                     })
                     .accessibilityIdentifier(A11yIdentifiers.settingsScreen.screenLock)
             
+            ListRow(label: .default(title: UntranslatedL10n.commonIdentity,
+                                    icon: \.verified),
+                    kind: .navigationLink {
+                        context.send(viewAction: .identity)
+                    })
+                    .accessibilityIdentifier(A11yIdentifiers.settingsScreen.identity)
+            
             switch context.viewState.securitySectionMode {
             case .secureBackup:
                 ListRow(label: .default(title: L10n.commonEncryption,

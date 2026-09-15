@@ -16,6 +16,7 @@ enum SettingsScreenViewModelAction {
     case manageAccount(url: URL)
     case analytics
     case appLock
+    case identity
     case reportBug
     case about
     case blockedUsers
@@ -85,6 +86,7 @@ enum SettingsScreenViewAction {
     case userStatus(UserStatusAction)
     case analytics
     case appLock
+    case identity
     case reportBug
     case about
     case blockedUsers

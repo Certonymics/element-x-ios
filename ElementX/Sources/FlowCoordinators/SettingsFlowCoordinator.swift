@@ -101,6 +101,8 @@ class SettingsFlowCoordinator: FlowCoordinatorProtocol {
                     presentAnalyticsScreen()
                 case .appLock:
                     presentAppLockSetupFlow()
+                case .identity:
+                    presentIdentitySettings()
                 case .bugReport:
                     bugReportFlowCoordinator = BugReportFlowCoordinator(parameters: .init(presentationMode: .push(navigationStackCoordinator),
                                                                                           userIndicatorController: flowParameters.userIndicatorController,
@@ -252,6 +254,12 @@ class SettingsFlowCoordinator: FlowCoordinatorProtocol {
     
     private func presentLegalInformationScreen() {
         navigationStackCoordinator.push(LegalInformationScreenCoordinator(appSettings: flowParameters.appSettings))
+    }
+    
+    private func presentIdentitySettings() {
+        let coordinator = IdentitySettingsScreenCoordinator(parameters: .init(userID: flowParameters.userSession.clientProxy.userID,
+                                                                              verifiedIdentityService: flowParameters.verifiedIdentityService))
+        navigationStackCoordinator.push(coordinator)
     }
     
     private func presentBlockedUsersScreen() {
