@@ -31,14 +31,20 @@ struct VerifiedIdentityServiceTests {
     }
     
     @Test
-    func handleDisplayNameIsNotAClaim() {
+    func handleDisplayNameIsFlagged() {
         let jan = VerifiedIdentityRecord(realName: "Jan Kowalski", country: "Poland", verifiedOn: "9 Sep 2026", linkedEmail: "jan.kowalski@cemail.org")
         let service = VerifiedIdentityService(records: ["@chatxsanmcc:matrix.org": jan])
-        #expect(service.state(for: "@chatxsanmcc:matrix.org", displayName: "chatxsanmcc") == .verified(realName: "Jan Kowalski", record: jan, shownAs: nil))
+        #expect(service.state(for: "@chatxsanmcc:matrix.org", displayName: "chatxsanmcc") == .verified(realName: "Jan Kowalski", record: jan, shownAs: "chatxsanmcc"))
     }
     
     @Test
-    func differentRealLookingNameIsFlagged() {
+    func missingDisplayNameIsNotFlagged() {
+        let service = VerifiedIdentityService(records: ["@bob:matrix.org": bartek])
+        #expect(service.state(for: "@bob:matrix.org", displayName: nil) == .verified(realName: "Bartek Nowak", record: bartek, shownAs: nil))
+    }
+    
+    @Test
+    func differentNameIsFlagged() {
         let service = VerifiedIdentityService(records: ["@bob:matrix.org": bartek])
         #expect(service.state(for: "@bob:matrix.org", displayName: "Alice Chen · CEO") == .verified(realName: "Bartek Nowak", record: bartek, shownAs: "Alice Chen · CEO"))
     }

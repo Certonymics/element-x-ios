@@ -50,8 +50,7 @@ nonisolated struct VerifiedIdentityService: Sendable {
         "@charlie:matrix.org": .identityOnly,
         "@dan:matrix.org": .init(realName: "Dan", country: "Ireland", verifiedOn: "28 Jul 2026", linkedEmail: "dan@cemail.org"),
         "@chatxsanmcc:matrix.org": .init(realName: "Jan Kowalski", country: "Poland", verifiedOn: "9 Sep 2026", linkedEmail: "jan.kowalski@cemail.org"),
-        // Impostor: the display name ("Kamil Test") claims a different person than the verified one.
-        "@kk-test1:matrix.org": .init(realName: "Bartek Nowak", country: "Poland", verifiedOn: "3 Sep 2026", linkedEmail: "b.nowak@cemail.org"),
+        "@kk-test1:matrix.org": .init(realName: "Kamil Test", country: "Poland", verifiedOn: "3 Sep 2026", linkedEmail: "kamil.test@cemail.org"),
         // On c.email, no ID check yet.
         "@kamilcertonymity:matrix.org": .identityOnly,
         "@helena:matrix.org": .init(realName: "Helena", country: "Poland", verifiedOn: "12 Aug 2026", linkedEmail: "helena@cemail.org"),
@@ -82,13 +81,10 @@ nonisolated struct VerifiedIdentityService: Sendable {
         return .verified(realName: realName, record: record, shownAs: shownAs)
     }
     
-    /// A display name counts as a name claim only when it looks like a person's name, i.e. contains whitespace or an
-    /// uppercase letter: `Bob` and `Alice Chen · CEO` are claims, `chatxsanmcc` and `marek` are handles. The claim is
-    /// returned only when it doesn't match `realName` after trimming and case/diacritic folding.
+    /// The display name when it doesn't match `realName` after trimming and case/diacritic folding. A handle such as
+    /// `chatxsanmcc` counts too: anything other than the verified name hides who the person really is.
     private static func nameClaim(in displayName: String?, differingFrom realName: String) -> String? {
-        guard let displayName else { return nil }
-        let looksLikeName = displayName.contains { $0.isWhitespace || $0.isUppercase }
-        guard looksLikeName, fold(displayName) != fold(realName) else { return nil }
+        guard let displayName, fold(displayName) != fold(realName) else { return nil }
         return displayName
     }
     
