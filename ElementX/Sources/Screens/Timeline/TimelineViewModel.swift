@@ -330,7 +330,7 @@ class TimelineViewModel: TimelineViewModelType, TimelineViewModelProtocol {
         }
         
         let viewModel = ManageRoomMemberSheetViewModel(memberDetails: memberDetails,
-                                                       verifiedIdentity: state.verifiedIdentityService.state(for: sender.id, displayName: memberDetails.name),
+                                                       verifiedIdentity: state.verifiedIdentityService.state(for: sender.id),
                                                        permissions: .init(canKick: state.canCurrentUserKick,
                                                                           canBan: state.canCurrentUserBan,
                                                                           ownPowerLevel: currentUserProxy?.powerLevel ?? .init(value: 0)),

@@ -5,9 +5,7 @@
 "common_linked_email" = "Linked email";
 "common_real_name" = "Real name";
 "common_real_name_unknown" = "Real name unknown";
-"common_shown_as_verified_as" = "Shown as %1$@ · verified as %2$@";
 "common_unverified" = "Unverified";
-"common_verified_as" = "Verified as %1$@";
 "common_verified_identity" = "Verified identity";
 "common_verified_on" = "Verified on";
 "common_verified_with" = "Verified with";

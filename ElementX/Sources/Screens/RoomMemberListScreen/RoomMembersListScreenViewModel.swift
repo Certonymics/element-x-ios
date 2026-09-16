@@ -148,17 +148,17 @@ class RoomMembersListScreenViewModel: RoomMembersListScreenViewModelType, RoomMe
                 case .invite:
                     invitedMembers.append(.init(member: .init(withProxy: member),
                                                 verificationState: verificationState,
-                                                verifiedIdentity: verifiedIdentityService.state(for: member.userID, displayName: member.displayName),
+                                                verifiedIdentity: verifiedIdentityService.state(for: member.userID),
                                                 isActiveRoomCallParticipant: isActiveRoomCallParticipant))
                 case .join:
                     joinedMembers.append(.init(member: .init(withProxy: member),
                                                verificationState: verificationState,
-                                               verifiedIdentity: verifiedIdentityService.state(for: member.userID, displayName: member.displayName),
+                                               verifiedIdentity: verifiedIdentityService.state(for: member.userID),
                                                isActiveRoomCallParticipant: isActiveRoomCallParticipant))
                 case .ban:
                     bannedMembers.append(.init(member: .init(withProxy: member),
                                                verificationState: verificationState,
-                                               verifiedIdentity: verifiedIdentityService.state(for: member.userID, displayName: member.displayName),
+                                               verifiedIdentity: verifiedIdentityService.state(for: member.userID),
                                                isActiveRoomCallParticipant: isActiveRoomCallParticipant))
                 default:
                     continue
@@ -188,7 +188,7 @@ class RoomMembersListScreenViewModel: RoomMembersListScreenViewModelType, RoomMe
         }
         
         let manageMemberViewModel = ManageRoomMemberSheetViewModel(memberDetails: .memberDetails(roomMember: member),
-                                                                   verifiedIdentity: verifiedIdentityService.state(for: member.id, displayName: member.name),
+                                                                   verifiedIdentity: verifiedIdentityService.state(for: member.id),
                                                                    permissions: .init(canKick: state.canKickUsers,
                                                                                       canBan: state.canBanUsers,
                                                                                       ownPowerLevel: currentUserProxy?.powerLevel ?? .init(value: 0)),

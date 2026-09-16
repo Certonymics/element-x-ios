@@ -88,7 +88,7 @@ struct UserProfileScreenViewModelTests {
     }
     
     @Test
-    func displayNameDifferentFromVerifiedNameIsFlagged() async throws {
+    func verifiedIdentityIsResolvedForTheUser() async throws {
         let profile = UserProfile(userID: "@bob:matrix.org", displayName: "Alice Chen · CEO", avatarURL: nil)
         let clientProxy = ClientProxyMock(.init())
         clientProxy.profileForReturnValue = .success(profile)
@@ -106,6 +106,6 @@ struct UserProfileScreenViewModelTests {
         let waitForProfile = deferFulfillment(context.observe(\.viewState.verifiedIdentity)) { $0 != .unverified }
         try await waitForProfile.fulfill()
         
-        #expect(context.viewState.verifiedIdentity == .verified(realName: "Bartek Nowak", record: record, matchesDisplayName: false))
+        #expect(context.viewState.verifiedIdentity == .verified(realName: "Bartek Nowak", record: record))
     }
 }

@@ -13,7 +13,7 @@ typealias IdentitySettingsScreenViewModelType = StateStoreViewModelV2<IdentitySe
 class IdentitySettingsScreenViewModel: IdentitySettingsScreenViewModelType, IdentitySettingsScreenViewModelProtocol {
     init(userID: String, verifiedIdentityService: VerifiedIdentityService) {
         super.init(initialViewState: IdentitySettingsScreenViewState(userID: userID,
-                                                                     verifiedIdentity: verifiedIdentityService.state(for: userID, displayName: nil)))
+                                                                     verifiedIdentity: verifiedIdentityService.state(for: userID)))
     }
     
     override func process(viewAction: IdentitySettingsScreenViewAction) {
@@ -21,7 +21,7 @@ class IdentitySettingsScreenViewModel: IdentitySettingsScreenViewModelType, Iden
         case .verify:
             // Demo: there is no ID check flow yet, verifying flips straight to the verified state.
             let record = VerifiedIdentityService.demoOwnRecord
-            state.verifiedIdentity = .verified(realName: record.realName ?? state.userID, record: record, matchesDisplayName: true)
+            state.verifiedIdentity = .verified(realName: record.realName ?? state.userID, record: record)
         }
     }
 }

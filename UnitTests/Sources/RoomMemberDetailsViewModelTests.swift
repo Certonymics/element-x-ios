@@ -199,14 +199,14 @@ struct RoomMemberDetailsViewModelTests {
     // MARK: - Verified Identity
     
     @Test
-    mutating func displayNameDifferentFromVerifiedNameIsFlagged() async throws {
+    mutating func verifiedIdentityIsResolvedForTheUser() async throws {
         let record = VerifiedIdentityRecord(realName: "Bartek Nowak", country: "Poland", verifiedOn: "3 Sep 2026", linkedEmail: "b.nowak@cemail.org")
         setup(roomMemberProxyMock: .mockBob, verifiedIdentityService: VerifiedIdentityService(records: ["@bob:matrix.org": record]))
         
         let waitForIdentity = deferFulfillment(context.$viewState) { $0.verifiedIdentity != .unverified }
         try await waitForIdentity.fulfill()
         
-        #expect(context.viewState.verifiedIdentity == .verified(realName: "Bartek Nowak", record: record, matchesDisplayName: false))
+        #expect(context.viewState.verifiedIdentity == .verified(realName: "Bartek Nowak", record: record))
     }
     
     // MARK: - Helpers

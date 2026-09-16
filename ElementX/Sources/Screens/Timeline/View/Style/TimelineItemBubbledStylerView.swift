@@ -157,8 +157,7 @@ struct TimelineItemBubbledStylerView<Content: View>: View {
                             .foregroundStyle(.compound.textSecondary)
                     }
                     
-                    VerifiedIdentityChip(state: verifiedIdentityService.state(for: timelineItem.sender.id,
-                                                                              displayName: timelineItem.sender.displayName))
+                    VerifiedIdentityChip(state: verifiedIdentityService.state(for: timelineItem.sender.id))
                 }
                 .lineLimit(1)
                 .scaledPadding(.top, 3)

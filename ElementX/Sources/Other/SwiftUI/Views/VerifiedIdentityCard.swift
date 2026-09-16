@@ -11,21 +11,14 @@ import SwiftUI
 /// The Passport card: what the government-issued ID verified. Empty unless the user is verified.
 struct VerifiedIdentityCard: View {
     let state: VerifiedIdentityState
-    let displayName: String?
     var isOwnIdentity = false
     
     var body: some View {
-        if case .verified(let realName, let record, let matchesDisplayName) = state {
+        if case .verified(let realName, let record) = state {
             VStack(alignment: .leading, spacing: 12) {
                 Label(UntranslatedL10n.commonVerifiedIdentity, icon: \.verified, iconSize: .small, relativeTo: .compound.bodyMDSemibold)
                     .font(.compound.bodyMDSemibold)
                     .labelStyle(IconTextLabelStyle(iconColor: .compound.iconPrimary, titleColor: .compound.textPrimary))
-                
-                if !matchesDisplayName, let displayName {
-                    Label(UntranslatedL10n.commonShownAsVerifiedAs(displayName, realName), icon: \.warning, iconSize: .xSmall, relativeTo: .compound.bodySM)
-                        .font(.compound.bodySMSemibold)
-                        .labelStyle(IconTextLabelStyle(iconColor: .compound.iconCriticalPrimary, titleColor: .compound.textCriticalPrimary))
-                }
                 
                 row(UntranslatedL10n.commonRealName, value: realName)
                 row(UntranslatedL10n.commonVerifiedWith, value: UntranslatedL10n.commonGovernmentIssuedId)
@@ -81,10 +74,7 @@ struct VerifiedIdentityCard_Previews: PreviewProvider, TestablePreview {
     static let record = VerifiedIdentityRecord(realName: "Ana Kowalczyk", country: "Poland", verifiedOn: "12 Aug 2026", linkedEmail: "a.kowalczyk@cemail.org")
     
     static var previews: some View {
-        VStack(spacing: 16) {
-            VerifiedIdentityCard(state: .verified(realName: "Ana Kowalczyk", record: record, matchesDisplayName: true), displayName: "Ana Kowalczyk")
-            VerifiedIdentityCard(state: .verified(realName: "Ana Kowalczyk", record: record, matchesDisplayName: false), displayName: "Alice Chen · CEO")
-        }
-        .previewLayout(.sizeThatFits)
+        VerifiedIdentityCard(state: .verified(realName: "Ana Kowalczyk", record: record))
+            .previewLayout(.sizeThatFits)
     }
 }

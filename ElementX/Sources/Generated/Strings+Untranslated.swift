@@ -24,16 +24,8 @@ internal nonisolated enum UntranslatedL10n {
   internal static var commonRealName: String { return UntranslatedL10n.tr("Untranslated", "common_real_name") }
   /// Real name unknown
   internal static var commonRealNameUnknown: String { return UntranslatedL10n.tr("Untranslated", "common_real_name_unknown") }
-  /// Shown as %1$@ · verified as %2$@
-  internal static func commonShownAsVerifiedAs(_ p1: Any, _ p2: Any) -> String {
-    return UntranslatedL10n.tr("Untranslated", "common_shown_as_verified_as", String(describing: p1), String(describing: p2))
-  }
   /// Unverified
   internal static var commonUnverified: String { return UntranslatedL10n.tr("Untranslated", "common_unverified") }
-  /// Verified as %1$@
-  internal static func commonVerifiedAs(_ p1: Any) -> String {
-    return UntranslatedL10n.tr("Untranslated", "common_verified_as", String(describing: p1))
-  }
   /// Verified identity
   internal static var commonVerifiedIdentity: String { return UntranslatedL10n.tr("Untranslated", "common_verified_identity") }
   /// Verified on

@@ -94,7 +94,7 @@ class UserProfileScreenViewModel: UserProfileScreenViewModelType, UserProfileScr
         switch await profileResult {
         case .success(let userProfile):
             state.userProfile = userProfile
-            state.verifiedIdentity = verifiedIdentityService.state(for: userProfile.id, displayName: userProfile.displayName)
+            state.verifiedIdentity = verifiedIdentityService.state(for: userProfile.id)
             state.permalink = (try? matrixToUserPermalink(userId: state.userID)).flatMap(URL.init(string:))
             
             switch userSession.clientProxy.directRoomForUserID(userProfile.id) {

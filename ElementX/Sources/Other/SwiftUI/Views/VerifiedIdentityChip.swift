@@ -14,10 +14,8 @@ struct VerifiedIdentityChip: View {
     
     var body: some View {
         switch state {
-        case .verified(_, _, matchesDisplayName: true):
+        case .verified:
             BadgeLabel(title: state.title, icon: \.verified, style: .accent)
-        case .verified(_, _, matchesDisplayName: false):
-            BadgeLabel(title: state.title, icon: \.warning, style: .critical)
         case .known:
             BadgeLabel(title: state.title, icon: \.verified, style: .default)
         case .unverified:
@@ -30,10 +28,8 @@ nonisolated extension VerifiedIdentityState {
     /// The chip's text, also read to VoiceOver where the chip itself is hidden.
     var title: String {
         switch self {
-        case .verified(let realName, _, matchesDisplayName: true):
+        case .verified(let realName, _):
             realName
-        case .verified(let realName, _, matchesDisplayName: false):
-            UntranslatedL10n.commonVerifiedAs(realName)
         case .known:
             UntranslatedL10n.commonRealNameUnknown
         case .unverified:
@@ -47,8 +43,7 @@ struct VerifiedIdentityChip_Previews: PreviewProvider, TestablePreview {
     
     static var previews: some View {
         VStack(alignment: .leading, spacing: 10) {
-            VerifiedIdentityChip(state: .verified(realName: "Ana Kowalczyk", record: record, matchesDisplayName: true))
-            VerifiedIdentityChip(state: .verified(realName: "Ana Kowalczyk", record: record, matchesDisplayName: false))
+            VerifiedIdentityChip(state: .verified(realName: "Ana Kowalczyk", record: record))
             VerifiedIdentityChip(state: .known)
             VerifiedIdentityChip(state: .unverified)
         }
