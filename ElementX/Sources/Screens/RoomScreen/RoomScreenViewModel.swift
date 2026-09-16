@@ -20,6 +20,7 @@ class RoomScreenViewModel: RoomScreenViewModelType, RoomScreenViewModelProtocol 
     private let appSettings: AppSettings
     private let analyticsService: AnalyticsServiceProtocol
     private let userIndicatorController: UserIndicatorControllerProtocol
+    private let verifiedIdentityService: VerifiedIdentityService
     
     private var initialSelectedPinnedEventID: String?
     private let pinnedEventStringBuilder: RoomEventStringBuilder
@@ -57,12 +58,14 @@ class RoomScreenViewModel: RoomScreenViewModelType, RoomScreenViewModelProtocol 
          appSettings: AppSettings,
          appHooks: AppHooks,
          analyticsService: AnalyticsServiceProtocol,
-         userIndicatorController: UserIndicatorControllerProtocol) {
+         userIndicatorController: UserIndicatorControllerProtocol,
+         verifiedIdentityService: VerifiedIdentityService = .demo()) {
         clientProxy = userSession.clientProxy
         self.roomProxy = roomProxy
         self.appSettings = appSettings
         self.analyticsService = analyticsService
         self.userIndicatorController = userIndicatorController
+        self.verifiedIdentityService = verifiedIdentityService
         
         self.initialSelectedPinnedEventID = initialSelectedPinnedEventID
         pinnedEventStringBuilder = .pinnedEventStringBuilder(userID: roomProxy.ownUserID)
@@ -77,6 +80,7 @@ class RoomScreenViewModel: RoomScreenViewModelType, RoomScreenViewModelProtocol 
                    mediaProvider: userSession.mediaProvider)
         
         updateRoomInfo(roomProxy.infoPublisher.value)
+        updateMembersSubtitle(roomProxy.membersPublisher.value)
         setupSubscriptions(ongoingCallRoomIDPublisher: ongoingCallRoomIDPublisher)
         
         Task {
@@ -182,6 +186,13 @@ class RoomScreenViewModel: RoomScreenViewModelType, RoomScreenViewModelProtocol 
             .receive(on: DispatchQueue.main)
             .sink { [weak self] roomInfo in
                 self?.updateRoomInfo(roomInfo)
+            }
+            .store(in: &cancellables)
+        
+        roomProxy.membersPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] members in
+                self?.updateMembersSubtitle(members)
             }
             .store(in: &cancellables)
         
@@ -333,6 +344,16 @@ class RoomScreenViewModel: RoomScreenViewModelType, RoomScreenViewModelProtocol 
             state.pinnedEventsBannerState.setSelectedPinnedEventID(initialSelectedPinnedEventID)
             self.initialSelectedPinnedEventID = nil
         }
+    }
+    
+    private func updateMembersSubtitle(_ members: [RoomMemberProxyProtocol]) {
+        guard !state.isDM else {
+            state.membersSubtitle = nil
+            return
+        }
+        
+        let verifiedCount = members.filter { verifiedIdentityService.state(for: $0.userID, displayName: $0.displayName).isVerified }.count
+        state.membersSubtitle = UntranslatedL10n.screenRoomHeaderMembersVerified(members.count, verifiedCount)
     }
     
     private func updateRoomInfo(_ roomInfo: RoomInfoProxyProtocol) {

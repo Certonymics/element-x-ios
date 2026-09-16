@@ -102,7 +102,7 @@ class RoomMemberDetailsScreenViewModel: RoomMemberDetailsScreenViewModelType, Ro
         case .success(let member):
             roomMemberProxy = member
             state.memberDetails = RoomMemberDetails(withProxy: member)
-            state.verifiedIdentity = verifiedIdentityService.state(for: member.userID)
+            state.verifiedIdentity = verifiedIdentityService.state(for: member.userID, displayName: member.displayName)
             state.isOwnMemberDetails = member.userID == roomProxy.ownUserID
             switch userSession.clientProxy.directRoomForUserID(member.userID) {
             case .success(let roomID):

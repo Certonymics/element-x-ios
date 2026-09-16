@@ -106,6 +106,6 @@ struct UserProfileScreenViewModelTests {
         let waitForProfile = deferFulfillment(context.observe(\.viewState.verifiedIdentity)) { $0 != .unverified }
         try await waitForProfile.fulfill()
         
-        #expect(context.viewState.verifiedIdentity == .verified(realName: "Bartek Nowak", record: record))
+        #expect(context.viewState.verifiedIdentity == .verified(realName: "Bartek Nowak", record: record, shownAs: "Alice Chen · CEO"))
     }
 }

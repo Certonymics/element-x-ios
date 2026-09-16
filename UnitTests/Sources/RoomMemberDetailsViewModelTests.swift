@@ -206,7 +206,7 @@ struct RoomMemberDetailsViewModelTests {
         let waitForIdentity = deferFulfillment(context.$viewState) { $0.verifiedIdentity != .unverified }
         try await waitForIdentity.fulfill()
         
-        #expect(context.viewState.verifiedIdentity == .verified(realName: "Bartek Nowak", record: record))
+        #expect(context.viewState.verifiedIdentity == .verified(realName: "Bartek Nowak", record: record, shownAs: "Bob"))
     }
     
     // MARK: - Helpers

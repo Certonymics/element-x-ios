@@ -70,7 +70,7 @@ private struct TimelineItemAccessibilityModifier: ViewModifier {
     }
     
     private func identityTitle(for timelineItem: EventBasedTimelineItemProtocol) -> String {
-        verifiedIdentityService.state(for: timelineItem.sender.id).title
+        verifiedIdentityService.state(for: timelineItem.sender.id, displayName: timelineItem.sender.displayName).title
     }
     
     /// Offers the message actions, or turns the item into a selection toggle while selecting.

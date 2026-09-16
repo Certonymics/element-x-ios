@@ -14,8 +14,10 @@ struct VerifiedIdentityChip: View {
     
     var body: some View {
         switch state {
-        case .verified:
+        case .verified(_, _, shownAs: nil):
             BadgeLabel(title: state.title, icon: \.verified, style: .tinted(text: .cemailVerified, background: .cemailVerifiedTint))
+        case .verified(_, _, shownAs: .some):
+            BadgeLabel(title: state.title, icon: \.warning, style: .tinted(text: .cemailWarning, background: .cemailWarningTint))
         case .known:
             BadgeLabel(title: state.title, icon: \.verified, style: .default)
         case .unverified:
@@ -33,14 +35,24 @@ extension Color {
     static let cemailVerifiedTint = Color(UIColor { traits in
         traits.userInterfaceStyle == .dark ? UIColor(red: 0x1F / 255, green: 0x23 / 255, blue: 0x39 / 255, alpha: 1) : UIColor(red: 0xEB / 255, green: 0xF5 / 255, blue: 0xFF / 255, alpha: 1)
     })
+    
+    static let cemailWarning = Color(UIColor { traits in
+        traits.userInterfaceStyle == .dark ? UIColor(red: 0xFF / 255, green: 0xE9 / 255, blue: 0xD6 / 255, alpha: 1) : UIColor(red: 0xFF / 255, green: 0x73 / 255, blue: 0x00 / 255, alpha: 1)
+    })
+    
+    static let cemailWarningTint = Color(UIColor { traits in
+        traits.userInterfaceStyle == .dark ? UIColor(red: 0x37 / 255, green: 0x24 / 255, blue: 0x16 / 255, alpha: 1) : UIColor(red: 0xFF / 255, green: 0xE9 / 255, blue: 0xD6 / 255, alpha: 1)
+    })
 }
 
 nonisolated extension VerifiedIdentityState {
     /// The chip's text, also read to VoiceOver where the chip itself is hidden.
     var title: String {
         switch self {
-        case .verified(let realName, _):
+        case .verified(let realName, _, shownAs: nil):
             realName
+        case .verified(let realName, _, shownAs: .some(let shownAs)):
+            UntranslatedL10n.commonShownAsVerifiedAs(shownAs, realName)
         case .known:
             UntranslatedL10n.commonRealNameUnknown
         case .unverified:
@@ -54,7 +66,8 @@ struct VerifiedIdentityChip_Previews: PreviewProvider, TestablePreview {
     
     static var previews: some View {
         VStack(alignment: .leading, spacing: 10) {
-            VerifiedIdentityChip(state: .verified(realName: "Ana Kowalczyk", record: record))
+            VerifiedIdentityChip(state: .verified(realName: "Ana Kowalczyk", record: record, shownAs: nil))
+            VerifiedIdentityChip(state: .verified(realName: "Ana Kowalczyk", record: record, shownAs: "Alice Chen · CEO"))
             VerifiedIdentityChip(state: .known)
             VerifiedIdentityChip(state: .unverified)
         }

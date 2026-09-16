@@ -5,6 +5,7 @@
 "common_linked_email" = "Linked email";
 "common_real_name" = "Real name";
 "common_real_name_unknown" = "Real name unknown";
+"common_shown_as_verified_as" = "Shown as %1$@ · verified as %2$@";
 "common_unverified" = "Unverified";
 "common_verified_identity" = "Verified identity";
 "common_verified_on" = "Verified on";
@@ -13,6 +14,7 @@
 "screen_identity_settings_description" = "Link your legal name to %1$@ so people know it is really you.";
 "screen_identity_settings_not_verified_description" = "Verify once with a government-issued ID. Your real name is shown next to your messages and in your profile. The document itself is never shared.";
 "screen_identity_settings_verified_footer" = "You verified your identity with a government-issued ID. Your legal name is linked to this account.";
+"screen_room_header_members_verified" = "%1$d members · %2$d verified";
 "screen_room_member_list_verified_count" = "%1$d of %2$d verified";
 "screen_search_empty_state_message" = "Search for chats and messages";
 "screen_search_empty_state_title" = "Start searching...";

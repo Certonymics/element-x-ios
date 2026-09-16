@@ -20,7 +20,8 @@ nonisolated struct VerifiedIdentityRecord: Hashable, Sendable {
 }
 
 nonisolated enum VerifiedIdentityState: Hashable, Sendable {
-    case verified(realName: String, record: VerifiedIdentityRecord)
+    /// `shownAs` is the display name when it claims to be a different person than `realName`, otherwise `nil`.
+    case verified(realName: String, record: VerifiedIdentityRecord, shownAs: String?)
     /// On c.email, but the real name isn't known yet.
     case known
     case unverified
@@ -40,6 +41,7 @@ nonisolated enum VerifiedIdentityState: Hashable, Sendable {
 /// account's email through the identity server, then the c.email DID and its KYC proof.
 nonisolated struct VerifiedIdentityService: Sendable {
     private let records: [String: VerifiedIdentityRecord]
+    private let ownUserID: String?
     
     /// Edit this map to add the accounts used in a demo.
     static let demoRecords: [String: VerifiedIdentityRecord] = [
@@ -47,13 +49,16 @@ nonisolated struct VerifiedIdentityService: Sendable {
         "@bob:matrix.org": .init(realName: "Bartek Nowak", country: "Poland", verifiedOn: "3 Sep 2026", linkedEmail: "b.nowak@cemail.org"),
         "@charlie:matrix.org": .identityOnly,
         "@dan:matrix.org": .init(realName: "Dan", country: "Ireland", verifiedOn: "28 Jul 2026", linkedEmail: "dan@cemail.org"),
-        "@chatxsanmcc:matrix.org": .init(realName: "Jan Kowalski", country: "Poland", verifiedOn: "9 Sep 2026", linkedEmail: "jan.kowalski@cemail.org")
+        "@chatxsanmcc:matrix.org": .init(realName: "Jan Kowalski", country: "Poland", verifiedOn: "9 Sep 2026", linkedEmail: "jan.kowalski@cemail.org"),
+        "@helena:matrix.org": .init(realName: "Helena", country: "Poland", verifiedOn: "12 Aug 2026", linkedEmail: "helena@cemail.org"),
+        "@marek:matrix.org": .identityOnly
     ]
     
     static let demoOwnRecord = VerifiedIdentityRecord(realName: "Kamil Kurowski", country: "Poland", verifiedOn: "15 Sep 2026", linkedEmail: "kamil@cemail.org")
     
-    init(records: [String: VerifiedIdentityRecord]) {
+    init(records: [String: VerifiedIdentityRecord], ownUserID: String? = nil) {
         self.records = records
+        self.ownUserID = ownUserID
     }
     
     /// The demo records, plus the signed-in user verified under `demoOwnRecord`.
@@ -62,13 +67,29 @@ nonisolated struct VerifiedIdentityService: Sendable {
         if let ownUserID {
             records[ownUserID] = demoOwnRecord
         }
-        return VerifiedIdentityService(records: records)
+        return VerifiedIdentityService(records: records, ownUserID: ownUserID)
     }
     
-    func state(for userID: String) -> VerifiedIdentityState {
+    /// The identity state for a user, flagging a display name that claims to be someone other than the verified person.
+    func state(for userID: String, displayName: String?) -> VerifiedIdentityState {
         guard let record = records[userID] else { return .unverified }
         guard let realName = record.realName else { return .known }
-        return .verified(realName: realName, record: record)
+        let shownAs = userID == ownUserID ? nil : Self.nameClaim(in: displayName, differingFrom: realName)
+        return .verified(realName: realName, record: record, shownAs: shownAs)
+    }
+    
+    /// A display name counts as a name claim only when it looks like a person's name, i.e. contains whitespace or an
+    /// uppercase letter: `Bob` and `Alice Chen · CEO` are claims, `chatxsanmcc` and `marek` are handles. The claim is
+    /// returned only when it doesn't match `realName` after trimming and case/diacritic folding.
+    private static func nameClaim(in displayName: String?, differingFrom realName: String) -> String? {
+        guard let displayName else { return nil }
+        let looksLikeName = displayName.contains { $0.isWhitespace || $0.isUppercase }
+        guard looksLikeName, fold(displayName) != fold(realName) else { return nil }
+        return displayName
+    }
+    
+    private static func fold(_ name: String) -> String {
+        name.trimmingCharacters(in: .whitespacesAndNewlines).folding(options: [.caseInsensitive, .diacriticInsensitive], locale: nil)
     }
 }
 

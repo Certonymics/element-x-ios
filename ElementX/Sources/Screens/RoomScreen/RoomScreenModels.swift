@@ -43,6 +43,8 @@ struct RoomScreenViewState: BindableState {
     var roomTitle = ""
     var roomAvatar: RoomAvatar
     var dmRecipientDetails = RoomHeaderView.DMRecipientDetails()
+    /// "N members · M verified", shown under the room name. `nil` for DMs.
+    var membersSubtitle: String?
     
     var lastScrollDirection: ScrollDirection?
     // This is used to control the banner

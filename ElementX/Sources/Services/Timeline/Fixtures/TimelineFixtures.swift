@@ -244,6 +244,8 @@ enum TimelineFixtures {
             .mockText("Boudin adipisicing pancetta chuck spare ribs beef ribs, in ut pork kevin.", sender: "Bob"),
             .mockText("Aliquip meatball incididunt fatback, pork belly in jowl tri-tip commodo spare ribs.", sender: "Alice", isOwn: true),
             .mockText("Excepteur rump tri-tip culpa in shankle esse ut.", sender: "Helena"),
+            .mockText("Does it work across homeservers?", sender: "Marek"),
+            .mockText("Sprint review at 15:00 in #design.", sender: "Dave"),
             .mockText("Pork buffalo mollit culpa strip steak in leberkas flank cow.", sender: "Alice", isOwn: true)
         ]
     }
