@@ -50,6 +50,10 @@ nonisolated struct VerifiedIdentityService: Sendable {
         "@charlie:matrix.org": .identityOnly,
         "@dan:matrix.org": .init(realName: "Dan", country: "Ireland", verifiedOn: "28 Jul 2026", linkedEmail: "dan@cemail.org"),
         "@chatxsanmcc:matrix.org": .init(realName: "Jan Kowalski", country: "Poland", verifiedOn: "9 Sep 2026", linkedEmail: "jan.kowalski@cemail.org"),
+        // Impostor: the display name ("Kamil Test") claims a different person than the verified one.
+        "@kk-test1:matrix.org": .init(realName: "Bartek Nowak", country: "Poland", verifiedOn: "3 Sep 2026", linkedEmail: "b.nowak@cemail.org"),
+        // On c.email, no ID check yet.
+        "@kamilcertonymity:matrix.org": .identityOnly,
         "@helena:matrix.org": .init(realName: "Helena", country: "Poland", verifiedOn: "12 Aug 2026", linkedEmail: "helena@cemail.org"),
         "@marek:matrix.org": .identityOnly
     ]
