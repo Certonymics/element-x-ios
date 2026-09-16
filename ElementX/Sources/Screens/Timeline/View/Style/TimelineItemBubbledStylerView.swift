@@ -13,6 +13,7 @@ struct TimelineItemBubbledStylerView<Content: View>: View {
     @EnvironmentObject private var context: TimelineViewModel.Context
     @Environment(\.timelineGroupStyle) private var timelineGroupStyle
     @Environment(\.focussedEventID) private var focussedEventID
+    @Environment(\.verifiedIdentityService) private var verifiedIdentityService
     
     let timelineItem: EventBasedTimelineItemProtocol
     let adjustedDeliveryStatus: TimelineItemDeliveryStatus?
@@ -136,27 +137,45 @@ struct TimelineItemBubbledStylerView<Content: View>: View {
     @ViewBuilder
     private var header: some View {
         if shouldShowSenderDetails {
+            let identityState = verifiedIdentityService.state(for: timelineItem.sender.id, displayName: timelineItem.sender.displayName)
+            let isNameMismatch = if case .verified(_, _, shownAs: .some) = identityState {
+                true
+            } else {
+                false
+            }
+            
             HStack(alignment: .top, spacing: 4) {
                 TimelineSenderAvatarView(timelineItem: timelineItem)
                 
-                HStack(alignment: .center, spacing: 4) {
-                    Text(timelineItem.sender.displayName ?? timelineItem.sender.id)
-                        .font(.compound.bodyMDSemibold)
-                        .foregroundStyle(.compound.decorativeColor(for: timelineItem.sender.id).text)
-                    
-                    if let statusEmoji = timelineItem.sender.status.displayed?.emoji {
-                        Text(String(statusEmoji))
+                // A mismatch warning is too long for the name row, so it goes on its own line underneath.
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack(alignment: .center, spacing: 4) {
+                        Text(timelineItem.sender.displayName ?? timelineItem.sender.id)
                             .font(.compound.bodyMDSemibold)
-                            .foregroundStyle(.compound.textPrimary)
+                            .foregroundStyle(.compound.decorativeColor(for: timelineItem.sender.id).text)
+                        
+                        if let statusEmoji = timelineItem.sender.status.displayed?.emoji {
+                            Text(String(statusEmoji))
+                                .font(.compound.bodyMDSemibold)
+                                .foregroundStyle(.compound.textPrimary)
+                        }
+                        
+                        if timelineItem.sender.displayName != nil, timelineItem.sender.isDisplayNameAmbiguous {
+                            Text(timelineItem.sender.id)
+                                .font(.compound.bodyXS)
+                                .foregroundStyle(.compound.textSecondary)
+                        }
+                        
+                        if !isNameMismatch {
+                            VerifiedIdentityChip(state: identityState)
+                        }
                     }
+                    .lineLimit(1)
                     
-                    if timelineItem.sender.displayName != nil, timelineItem.sender.isDisplayNameAmbiguous {
-                        Text(timelineItem.sender.id)
-                            .font(.compound.bodyXS)
-                            .foregroundStyle(.compound.textSecondary)
+                    if isNameMismatch {
+                        VerifiedIdentityChip(state: identityState)
                     }
                 }
-                .lineLimit(1)
                 .scaledPadding(.top, 3)
             }
             // sender info are read inside the `TimelineAccessibilityModifier`

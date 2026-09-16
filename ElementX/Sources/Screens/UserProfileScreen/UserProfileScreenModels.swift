@@ -25,6 +25,7 @@ struct UserProfileScreenViewState: BindableState {
     var permalink: URL?
     var dmRoomID: String?
     var isCallingEnabled = true
+    var verifiedIdentity: VerifiedIdentityState = .unverified
     
     var bindings: UserProfileScreenViewStateBindings
     

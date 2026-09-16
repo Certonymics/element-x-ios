@@ -45,6 +45,11 @@ struct RoomMembersListScreenMemberCell: View {
                                 .foregroundColor(.compound.textSecondary)
                                 .lineLimit(1)
                         }
+                        
+                        if !listEntry.member.isBanned {
+                            VerifiedIdentityChip(state: listEntry.verifiedIdentity)
+                                .padding(.top, 2)
+                        }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     

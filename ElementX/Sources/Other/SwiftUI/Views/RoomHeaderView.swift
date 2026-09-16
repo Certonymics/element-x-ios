@@ -18,6 +18,8 @@ struct RoomHeaderView: View {
     
     let roomName: String
     var roomSubtitle: String?
+    /// Shown in place of `roomSubtitle` when that is `nil`.
+    var membersSubtitle: String?
     let roomAvatar: RoomAvatar
     var dmRecipientDetails = DMRecipientDetails()
     var roomHistorySharingState: RoomHistorySharingState?
@@ -55,8 +57,8 @@ struct RoomHeaderView: View {
             VStack(alignment: .leading, spacing: 0) {
                 roomDetails
                 
-                if let roomSubtitle {
-                    Text(roomSubtitle)
+                if let subtitle = roomSubtitle ?? membersSubtitle {
+                    Text(subtitle)
                         .lineLimit(1)
                         .font(.compound.bodyXS)
                         .foregroundStyle(.compound.textSecondary)
@@ -134,6 +136,7 @@ struct RoomHeaderView_Previews: PreviewProvider, TestablePreview {
             VStack(alignment: .leading, spacing: 16) {
                 makeHeader(avatarURL: nil)
                 makeHeader(avatarURL: .mockMXCAvatar)
+                makeHeader(avatarURL: .mockMXCAvatar, membersSubtitle: "12 members · 5 verified")
                 
                 makeHeader(avatarURL: .mockMXCAvatar, historySharingState: .shared)
                 makeHeader(avatarURL: .mockMXCAvatar, historySharingState: .worldReadable)
@@ -173,12 +176,14 @@ struct RoomHeaderView_Previews: PreviewProvider, TestablePreview {
     @ViewBuilder
     static func makeHeader(avatarURL: URL?,
                            roomSubtitle: String? = nil,
+                           membersSubtitle: String? = nil,
                            userStatus: UserStatus? = nil,
                            verificationState: UserIdentityVerificationState? = nil,
                            historySharingState: RoomHistorySharingState? = nil) -> some View {
         let roomName = verificationState == nil ? "Some Room Name" : "Some User Name"
         RoomHeaderView(roomName: roomName,
                        roomSubtitle: roomSubtitle,
+                       membersSubtitle: membersSubtitle,
                        roomAvatar: .room(id: "1",
                                          name: roomName,
                                          avatarURL: avatarURL),

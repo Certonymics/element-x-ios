@@ -58,7 +58,8 @@ class TimelineViewModel: TimelineViewModelType, TimelineViewModelProtocol {
          analyticsService: AnalyticsServiceProtocol,
          emojiProvider: EmojiProviderProtocol,
          linkMetadataProvider: LinkMetadataProviderProtocol,
-         timelineControllerFactory: TimelineControllerFactoryProtocol) {
+         timelineControllerFactory: TimelineControllerFactoryProtocol,
+         verifiedIdentityService: VerifiedIdentityService = .demo()) {
         self.roomProxy = roomProxy
         self.timelineController = timelineController
         self.userSession = userSession
@@ -109,6 +110,7 @@ class TimelineViewModel: TimelineViewModelType, TimelineViewModelProtocol {
                                                        emojiProvider: emojiProvider,
                                                        linkMetadataProvider: hideTimelineMedia ? nil : linkMetadataProvider,
                                                        mapTilerConfiguration: appSettings.mapTilerConfiguration.publisher.value,
+                                                       verifiedIdentityService: verifiedIdentityService,
                                                        bindings: .init(reactionsCollapsed: [:])),
                    mediaProvider: userSession.mediaProvider,
                    contentScannerService: userSession.contentScannerService)
@@ -328,6 +330,7 @@ class TimelineViewModel: TimelineViewModelType, TimelineViewModelProtocol {
         }
         
         let viewModel = ManageRoomMemberSheetViewModel(memberDetails: memberDetails,
+                                                       verifiedIdentity: state.verifiedIdentityService.state(for: sender.id, displayName: sender.displayName),
                                                        permissions: .init(canKick: state.canCurrentUserKick,
                                                                           canBan: state.canCurrentUserBan,
                                                                           ownPowerLevel: currentUserProxy?.powerLevel ?? .init(value: 0)),

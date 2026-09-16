@@ -21,7 +21,7 @@ struct ManageRoomMemberSheetView: View {
                                  mediaProvider: context.mediaProvider) { url in
                     context.send(viewAction: .displayAvatar(url))
                 } footer: {
-                    EmptyView()
+                    VerifiedIdentityChip(state: context.viewState.verifiedIdentity)
                 }
             case .loadingMemberDetails(let sender):
                 AvatarHeaderView(sender: sender,
@@ -29,7 +29,7 @@ struct ManageRoomMemberSheetView: View {
                                  mediaProvider: context.mediaProvider) { url in
                     context.send(viewAction: .displayAvatar(url))
                 } footer: {
-                    EmptyView()
+                    VerifiedIdentityChip(state: context.viewState.verifiedIdentity)
                 }
             }
             

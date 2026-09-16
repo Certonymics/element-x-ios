@@ -33,6 +33,7 @@ enum RoomMembersListScreenMode {
 nonisolated struct RoomMemberListScreenEntry: Equatable {
     let member: RoomMemberDetails
     let verificationState: UserIdentityVerificationState
+    var verifiedIdentity: VerifiedIdentityState = .unverified
     /// Whether the member is currently joined to the room's active MatrixRTC call (e.g. Element Call).
     var isActiveRoomCallParticipant = false
 }
@@ -68,6 +69,10 @@ struct RoomMembersListScreenViewState: BindableState {
     var visibleJoinedMembers: [RoomMemberListScreenEntry] {
         joinedMembers
             .filter { $0.member.matches(searchQuery: bindings.searchQuery) }
+    }
+    
+    var verifiedJoinedMembersCount: Int {
+        joinedMembers.filter(\.verifiedIdentity.isVerified).count
     }
     
     var visibleInvitedMembers: [RoomMemberListScreenEntry] {

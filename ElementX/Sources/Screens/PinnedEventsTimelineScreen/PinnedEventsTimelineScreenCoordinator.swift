@@ -21,6 +21,7 @@ struct PinnedEventsTimelineScreenCoordinatorParameters {
     let linkMetadataProvider: LinkMetadataProviderProtocol
     let timelineControllerFactory: TimelineControllerFactoryProtocol
     let userIndicatorController: UserIndicatorControllerProtocol
+    var verifiedIdentityService = VerifiedIdentityService.demo()
 }
 
 enum PinnedEventsTimelineScreenCoordinatorAction {
@@ -58,7 +59,8 @@ final class PinnedEventsTimelineScreenCoordinator: CoordinatorProtocol {
                                               analyticsService: parameters.analytics,
                                               emojiProvider: parameters.emojiProvider,
                                               linkMetadataProvider: parameters.linkMetadataProvider,
-                                              timelineControllerFactory: parameters.timelineControllerFactory)
+                                              timelineControllerFactory: parameters.timelineControllerFactory,
+                                              verifiedIdentityService: parameters.verifiedIdentityService)
     }
     
     func start() {

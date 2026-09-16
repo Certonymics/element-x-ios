@@ -16,6 +16,7 @@ class RoomMemberDetailsScreenViewModel: RoomMemberDetailsScreenViewModelType, Ro
     private let userSession: UserSessionProtocol
     private let analytics: AnalyticsServiceProtocol
     private let userIndicatorController: UserIndicatorControllerProtocol
+    private let verifiedIdentityService: VerifiedIdentityService
     
     private var actionsSubject: PassthroughSubject<RoomMemberDetailsScreenViewModelAction, Never> = .init()
     
@@ -30,11 +31,13 @@ class RoomMemberDetailsScreenViewModel: RoomMemberDetailsScreenViewModelType, Ro
          userSession: UserSessionProtocol,
          appHooks: AppHooks,
          analytics: AnalyticsServiceProtocol,
-         userIndicatorController: UserIndicatorControllerProtocol) {
+         userIndicatorController: UserIndicatorControllerProtocol,
+         verifiedIdentityService: VerifiedIdentityService = .demo()) {
         self.roomProxy = roomProxy
         self.userSession = userSession
         self.userIndicatorController = userIndicatorController
         self.analytics = analytics
+        self.verifiedIdentityService = verifiedIdentityService
         
         let initialViewState = RoomMemberDetailsScreenViewState(userID: userID, bindings: .init())
         
@@ -99,6 +102,7 @@ class RoomMemberDetailsScreenViewModel: RoomMemberDetailsScreenViewModelType, Ro
         case .success(let member):
             roomMemberProxy = member
             state.memberDetails = RoomMemberDetails(withProxy: member)
+            state.verifiedIdentity = verifiedIdentityService.state(for: member.userID, displayName: member.displayName)
             state.isOwnMemberDetails = member.userID == roomProxy.ownUserID
             switch userSession.clientProxy.directRoomForUserID(member.userID) {
             case .success(let roomID):

@@ -59,7 +59,18 @@ struct RoomMembersListScreen: View {
     @ViewBuilder
     var roomMembers: some View {
         membersSection(entries: context.viewState.visibleInvitedMembers, section: .invited)
+        verifiedCount
         membersSection(entries: context.viewState.visibleJoinedMembers, section: .joined)
+    }
+    
+    private var verifiedCount: some View {
+        BadgeLabel(title: UntranslatedL10n.screenRoomMemberListVerifiedCount(context.viewState.verifiedJoinedMembersCount,
+                                                                             context.viewState.joinedMembersCount),
+                   icon: \.verified,
+                   style: .accent)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 16)
+            .padding(.bottom, 8)
     }
     
     var bannedUsers: some View {

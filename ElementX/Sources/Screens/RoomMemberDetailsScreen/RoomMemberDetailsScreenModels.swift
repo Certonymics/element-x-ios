@@ -23,6 +23,7 @@ struct RoomMemberDetailsScreenViewState: BindableState {
     var isProcessingIgnoreRequest = false
     var dmRoomID: String?
     var isCallingEnabled = true
+    var verifiedIdentity: VerifiedIdentityState = .unverified
     
     var bindings: RoomMemberDetailsScreenViewStateBindings
     

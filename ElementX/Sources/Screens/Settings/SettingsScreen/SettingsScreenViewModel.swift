@@ -121,6 +121,8 @@ class SettingsScreenViewModel: SettingsScreenViewModelType, SettingsScreenViewMo
             actionsSubject.send(.analytics)
         case .appLock:
             actionsSubject.send(.appLock)
+        case .identity:
+            actionsSubject.send(.identity)
         case .reportBug:
             actionsSubject.send(.reportBug)
         case .about:

@@ -258,6 +258,7 @@ enum A11yIdentifiers {
         let notifications = "settings-notifications"
         let analytics = "settings-analytics"
         let screenLock = "settings-screen_lock"
+        let identity = "settings-identity"
         let reportBug = "settings-report_bug"
         let about = "settings_about"
         let blockedUsers = "settings_blocked-users"

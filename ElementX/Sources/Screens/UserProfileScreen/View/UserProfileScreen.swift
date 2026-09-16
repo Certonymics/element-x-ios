@@ -42,8 +42,12 @@ struct UserProfileScreen: View {
                              mediaProvider: context.mediaProvider) { url in
                 context.send(viewAction: .displayAvatar(url))
             } footer: {
-                otherUserFooter
-                    .padding(.top, 8)
+                VStack(spacing: 24) {
+                    VerifiedIdentityChip(state: context.viewState.verifiedIdentity)
+                    VerifiedIdentityCard(state: context.viewState.verifiedIdentity, isOwnIdentity: context.viewState.isOwnUser)
+                    otherUserFooter
+                        .padding(.top, 8)
+                }
             }
         } else {
             AvatarHeaderView(user: UserProfile(userID: context.viewState.userID),

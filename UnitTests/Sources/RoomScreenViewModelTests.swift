@@ -23,6 +23,23 @@ final class RoomScreenViewModelTests {
     }
     
     @Test
+    func membersSubtitleCountsVerifiedMembers() {
+        let bob = VerifiedIdentityRecord(realName: "Bob", country: "Poland", verifiedOn: "3 Sep 2026", linkedEmail: "bob@cemail.org")
+        let roomProxyMock = JoinedRoomProxyMock(.init(members: [.mockMe, .mockAlice, .mockBob, .mockCharlie]))
+        let viewModel = RoomScreenViewModel(userSession: UserSessionMock(.init()),
+                                            roomProxy: roomProxyMock,
+                                            initialSelectedPinnedEventID: nil,
+                                            ongoingCallRoomIDPublisher: .init(.init(nil)),
+                                            appSettings: appSettings,
+                                            appHooks: AppHooks(),
+                                            analyticsService: AnalyticsServiceMock(.init()),
+                                            userIndicatorController: UserIndicatorControllerMock(),
+                                            verifiedIdentityService: VerifiedIdentityService(records: ["@bob:matrix.org": bob, "@charlie:matrix.org": .identityOnly]))
+        
+        #expect(viewModel.context.viewState.membersSubtitle == "4 members · 1 verified")
+    }
+    
+    @Test
     func pinnedEventsBanner() async throws {
         var configuration = JoinedRoomProxyMockConfiguration()
         let (stream, continuation) = AsyncStream.makeStream(of: TimelineProxyProtocol.self)

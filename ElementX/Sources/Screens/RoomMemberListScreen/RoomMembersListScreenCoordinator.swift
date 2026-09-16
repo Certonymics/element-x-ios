@@ -14,6 +14,7 @@ struct RoomMembersListScreenCoordinatorParameters {
     let roomProxy: JoinedRoomProxyProtocol
     let userIndicatorController: UserIndicatorControllerProtocol
     let analytics: AnalyticsServiceProtocol
+    var verifiedIdentityService = VerifiedIdentityService.demo()
 }
 
 enum RoomMembersListScreenCoordinatorAction {
@@ -35,7 +36,8 @@ final class RoomMembersListScreenCoordinator: CoordinatorProtocol {
         viewModel = RoomMembersListScreenViewModel(userSession: parameters.userSession,
                                                    roomProxy: parameters.roomProxy,
                                                    userIndicatorController: parameters.userIndicatorController,
-                                                   analytics: parameters.analytics)
+                                                   analytics: parameters.analytics,
+                                                   verifiedIdentityService: parameters.verifiedIdentityService)
     }
     
     func start() {

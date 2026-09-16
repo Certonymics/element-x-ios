@@ -21,6 +21,8 @@ private struct TimelineItemAccessibilityModifier: ViewModifier {
     let selection: TimelineItemAccessibilitySelection
     let action: () -> Void
     
+    @Environment(\.verifiedIdentityService) private var verifiedIdentityService
+    
     private var isSelecting: Bool {
         if case .selecting = selection {
             return true
@@ -45,6 +47,7 @@ private struct TimelineItemAccessibilityModifier: ViewModifier {
                 .accessibilityElement(children: isSelecting ? .combine : .contain)
                 .accessibilityLabel { _ in
                     Text(timelineItem.sender.displayName ?? timelineItem.sender.id)
+                    Text(identityTitle(for: timelineItem))
                     if let caption = timelineItem.content.caption, !caption.isBlank {
                         Text(caption)
                     }
@@ -55,6 +58,7 @@ private struct TimelineItemAccessibilityModifier: ViewModifier {
                 .accessibilityRepresentation {
                     VStack(spacing: 8) {
                         Text(timelineItem.sender.displayName ?? timelineItem.sender.id)
+                        Text(identityTitle(for: timelineItem))
                         content
                     }
                 }
@@ -63,6 +67,10 @@ private struct TimelineItemAccessibilityModifier: ViewModifier {
             content
                 .accessibilityElement(children: .combine)
         }
+    }
+    
+    private func identityTitle(for timelineItem: EventBasedTimelineItemProtocol) -> String {
+        verifiedIdentityService.state(for: timelineItem.sender.id, displayName: timelineItem.sender.displayName).title
     }
     
     /// Offers the message actions, or turns the item into a selection toggle while selecting.

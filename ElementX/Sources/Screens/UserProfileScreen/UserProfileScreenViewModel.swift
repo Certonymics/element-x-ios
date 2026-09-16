@@ -16,6 +16,7 @@ class UserProfileScreenViewModel: UserProfileScreenViewModelType, UserProfileScr
     private let userSession: UserSessionProtocol
     private let analytics: AnalyticsServiceProtocol
     private let userIndicatorController: UserIndicatorControllerProtocol
+    private let verifiedIdentityService: VerifiedIdentityService
     
     private var actionsSubject: PassthroughSubject<UserProfileScreenViewModelAction, Never> = .init()
     var actionsPublisher: AnyPublisher<UserProfileScreenViewModelAction, Never> {
@@ -27,10 +28,12 @@ class UserProfileScreenViewModel: UserProfileScreenViewModelType, UserProfileScr
          userSession: UserSessionProtocol,
          appHooks: AppHooks,
          analytics: AnalyticsServiceProtocol,
-         userIndicatorController: UserIndicatorControllerProtocol) {
+         userIndicatorController: UserIndicatorControllerProtocol,
+         verifiedIdentityService: VerifiedIdentityService = .demo()) {
         self.userSession = userSession
         self.analytics = analytics
         self.userIndicatorController = userIndicatorController
+        self.verifiedIdentityService = verifiedIdentityService
         
         let initialViewState = UserProfileScreenViewState(userID: userID,
                                                           isOwnUser: userID == userSession.clientProxy.userID,
@@ -91,6 +94,7 @@ class UserProfileScreenViewModel: UserProfileScreenViewModelType, UserProfileScr
         switch await profileResult {
         case .success(let userProfile):
             state.userProfile = userProfile
+            state.verifiedIdentity = verifiedIdentityService.state(for: userProfile.id, displayName: userProfile.displayName)
             state.permalink = (try? matrixToUserPermalink(userId: state.userID)).flatMap(URL.init(string:))
             
             switch userSession.clientProxy.directRoomForUserID(userProfile.id) {

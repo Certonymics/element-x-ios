@@ -308,6 +308,7 @@ struct RoomScreen: View {
         // as the latter disables interaction in the action button for rooms with long names
         ToolbarItem(placement: .principal) {
             RoomHeaderView(roomName: context.viewState.roomTitle,
+                           membersSubtitle: context.viewState.membersSubtitle,
                            roomAvatar: context.viewState.roomAvatar,
                            dmRecipientDetails: context.viewState.dmRecipientDetails,
                            roomHistorySharingState: context.viewState.roomHistorySharingState,

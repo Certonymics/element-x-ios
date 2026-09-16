@@ -50,6 +50,9 @@ struct RoomMemberDetailsScreen: View {
                 context.send(viewAction: .displayAvatar(url))
             } footer: {
                 VStack(spacing: 24) {
+                    VerifiedIdentityChip(state: context.viewState.verifiedIdentity)
+                    VerifiedIdentityCard(state: context.viewState.verifiedIdentity, isOwnIdentity: context.viewState.isOwnMemberDetails)
+                    
                     if context.viewState.showWithdrawVerificationSection {
                         withdrawVerificationSection
                     }

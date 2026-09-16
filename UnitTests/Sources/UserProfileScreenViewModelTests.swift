@@ -86,4 +86,26 @@ struct UserProfileScreenViewModelTests {
         context.send(viewAction: .openDirectChat)
         try await deferred.fulfill()
     }
+    
+    @Test
+    func verifiedIdentityIsResolvedForTheUser() async throws {
+        let profile = UserProfile(userID: "@bob:matrix.org", displayName: "Alice Chen · CEO", avatarURL: nil)
+        let clientProxy = ClientProxyMock(.init())
+        clientProxy.profileForReturnValue = .success(profile)
+        let record = VerifiedIdentityRecord(realName: "Bartek Nowak", country: "Poland", verifiedOn: "3 Sep 2026", linkedEmail: "b.nowak@cemail.org")
+        
+        let viewModel = UserProfileScreenViewModel(userID: profile.id,
+                                                   isPresentedModally: false,
+                                                   userSession: UserSessionMock(.init(clientProxy: clientProxy)),
+                                                   appHooks: AppHooks(),
+                                                   analytics: AnalyticsServiceMock(.init()),
+                                                   userIndicatorController: UserIndicatorControllerMock(),
+                                                   verifiedIdentityService: VerifiedIdentityService(records: [profile.id: record]))
+        let context = viewModel.context
+        
+        let waitForProfile = deferFulfillment(context.observe(\.viewState.verifiedIdentity)) { $0 != .unverified }
+        try await waitForProfile.fulfill()
+        
+        #expect(context.viewState.verifiedIdentity == .verified(realName: "Bartek Nowak", record: record, shownAs: "Alice Chen · CEO"))
+    }
 }

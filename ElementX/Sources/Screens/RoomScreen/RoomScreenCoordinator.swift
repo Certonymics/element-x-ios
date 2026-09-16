@@ -30,6 +30,7 @@ struct RoomScreenCoordinatorParameters {
     let composerDraftService: ComposerDraftServiceProtocol
     let timelineControllerFactory: TimelineControllerFactoryProtocol
     let userIndicatorController: UserIndicatorControllerProtocol
+    var verifiedIdentityService = VerifiedIdentityService.demo()
 }
 
 enum RoomScreenCoordinatorAction {
@@ -81,7 +82,8 @@ final class RoomScreenCoordinator: CoordinatorProtocol {
                                             appSettings: parameters.appSettings,
                                             appHooks: parameters.appHooks,
                                             analyticsService: parameters.analytics,
-                                            userIndicatorController: parameters.userIndicatorController)
+                                            userIndicatorController: parameters.userIndicatorController,
+                                            verifiedIdentityService: parameters.verifiedIdentityService)
         
         timelineViewModel = TimelineViewModel(roomProxy: parameters.roomProxy,
                                               focussedEventID: parameters.focussedEvent?.eventID,
@@ -94,7 +96,8 @@ final class RoomScreenCoordinator: CoordinatorProtocol {
                                               analyticsService: parameters.analytics,
                                               emojiProvider: parameters.emojiProvider,
                                               linkMetadataProvider: parameters.linkMetadataProvider,
-                                              timelineControllerFactory: parameters.timelineControllerFactory)
+                                              timelineControllerFactory: parameters.timelineControllerFactory,
+                                              verifiedIdentityService: parameters.verifiedIdentityService)
         
         let wysiwygViewModel = WysiwygComposerViewModel(minHeight: ComposerConstant.minHeight,
                                                         maxCompressedHeight: ComposerConstant.maxHeight,

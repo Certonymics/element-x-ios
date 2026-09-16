@@ -16,6 +16,7 @@ struct UserProfileScreenCoordinatorParameters {
     let appHooks: AppHooks
     let analytics: AnalyticsServiceProtocol
     let userIndicatorController: UserIndicatorControllerProtocol
+    var verifiedIdentityService = VerifiedIdentityService.demo()
 }
 
 enum UserProfileScreenCoordinatorAction {
@@ -40,7 +41,8 @@ final class UserProfileScreenCoordinator: CoordinatorProtocol {
                                                userSession: parameters.userSession,
                                                appHooks: parameters.appHooks,
                                                analytics: parameters.analytics,
-                                               userIndicatorController: parameters.userIndicatorController)
+                                               userIndicatorController: parameters.userIndicatorController,
+                                               verifiedIdentityService: parameters.verifiedIdentityService)
     }
     
     func start() {
