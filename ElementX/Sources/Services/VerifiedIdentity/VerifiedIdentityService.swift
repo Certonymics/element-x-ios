@@ -48,7 +48,8 @@ nonisolated struct VerifiedIdentityService: Sendable {
         "@alice:matrix.org": .init(realName: "Alice", country: "Poland", verifiedOn: "12 Aug 2026", linkedEmail: "alice@cemail.org"),
         "@bob:matrix.org": .init(realName: "Bartek Nowak", country: "Poland", verifiedOn: "3 Sep 2026", linkedEmail: "b.nowak@cemail.org"),
         "@charlie:matrix.org": .identityOnly,
-        "@dan:matrix.org": .init(realName: "Dan", country: "Ireland", verifiedOn: "28 Jul 2026", linkedEmail: "dan@cemail.org")
+        "@dan:matrix.org": .init(realName: "Dan", country: "Ireland", verifiedOn: "28 Jul 2026", linkedEmail: "dan@cemail.org"),
+        "@chatxsanmcc:matrix.org": .init(realName: "Anna Sanecka", country: "Poland", verifiedOn: "9 Sep 2026", linkedEmail: "a.sanecka@cemail.org")
     ]
     
     static let demoOwnRecord = VerifiedIdentityRecord(realName: "Kamil Kurowski", country: "Poland", verifiedOn: "15 Sep 2026", linkedEmail: "kamil@cemail.org")
