@@ -21,7 +21,7 @@ struct VerifiedIdentityChip: View {
         case .known:
             BadgeLabel(title: state.title, icon: \.verified, style: .default)
         case .unverified:
-            BadgeLabel(title: state.title, icon: \.userProfile, style: .default)
+            BadgeLabel(title: state.title, icon: \.userProfile, style: .critical)
         }
     }
 }
