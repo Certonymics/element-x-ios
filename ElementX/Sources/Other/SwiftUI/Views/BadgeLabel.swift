@@ -14,6 +14,8 @@ struct BadgeLabel: View {
         case accent
         case info
         case `default`
+        /// Brand colours that have no Compound token, e.g. a partner's identity badge.
+        case tinted(text: Color, background: Color)
     }
     
     let title: String
@@ -36,6 +38,7 @@ struct BadgeLabel: View {
             case .accent: .compound.textBadgeAccent
             case .info: .compound.textBadgeInfo
             case .default: .compound.textPrimary
+            case .tinted(let text, _): text
             }
         }
         
@@ -44,6 +47,7 @@ struct BadgeLabel: View {
             case .accent: .compound.iconAccentPrimary
             case .info: .compound.iconInfoPrimary
             case .default: .compound.iconPrimary
+            case .tinted(let text, _): text
             }
         }
         
@@ -52,6 +56,7 @@ struct BadgeLabel: View {
             case .accent: .compound.bgBadgeAccent
             case .info: .compound.bgBadgeInfo
             case .default: .compound.bgBadgeDefault
+            case .tinted(_, let background): background
             }
         }
         

@@ -15,13 +15,24 @@ struct VerifiedIdentityChip: View {
     var body: some View {
         switch state {
         case .verified:
-            BadgeLabel(title: state.title, icon: \.verified, style: .accent)
+            BadgeLabel(title: state.title, icon: \.verified, style: .tinted(text: .cemailVerified, background: .cemailVerifiedTint))
         case .known:
             BadgeLabel(title: state.title, icon: \.verified, style: .default)
         case .unverified:
             BadgeLabel(title: state.title, icon: \.userProfile, style: .default)
         }
     }
+}
+
+/// c.email's verified-identity blue, matching the c.email apps rather than Element's accent.
+extension Color {
+    static let cemailVerified = Color(UIColor { traits in
+        traits.userInterfaceStyle == .dark ? UIColor(red: 0xEB / 255, green: 0xF5 / 255, blue: 0xFF / 255, alpha: 1) : UIColor(red: 0x56 / 255, green: 0x6A / 255, blue: 0xFD / 255, alpha: 1)
+    })
+    
+    static let cemailVerifiedTint = Color(UIColor { traits in
+        traits.userInterfaceStyle == .dark ? UIColor(red: 0x1F / 255, green: 0x23 / 255, blue: 0x39 / 255, alpha: 1) : UIColor(red: 0xEB / 255, green: 0xF5 / 255, blue: 0xFF / 255, alpha: 1)
+    })
 }
 
 nonisolated extension VerifiedIdentityState {

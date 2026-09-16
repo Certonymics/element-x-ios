@@ -18,7 +18,7 @@ struct VerifiedIdentityCard: View {
             VStack(alignment: .leading, spacing: 12) {
                 Label(UntranslatedL10n.commonVerifiedIdentity, icon: \.verified, iconSize: .small, relativeTo: .compound.bodyMDSemibold)
                     .font(.compound.bodyMDSemibold)
-                    .labelStyle(IconTextLabelStyle(iconColor: .compound.iconPrimary, titleColor: .compound.textPrimary))
+                    .labelStyle(IconTextLabelStyle(iconColor: .cemailVerified, titleColor: .cemailVerified))
                 
                 row(UntranslatedL10n.commonRealName, value: realName)
                 row(UntranslatedL10n.commonVerifiedWith, value: UntranslatedL10n.commonGovernmentIssuedId)
